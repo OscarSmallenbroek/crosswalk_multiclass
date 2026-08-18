@@ -26,9 +26,7 @@
 {pstd}
     This is the same case coding as
     {helpb _cwcasefcn_esec88:case.esec88()}, so either function can be used
-    with the {cmd:mc.} tables. It is provided under its own name so that the
-    add-on is self-contained and so that the coding is documented alongside the
-    tables it belongs to.
+    with the {cmd:mc.} tables.
 
 {pstd}
     Employees with supervisory status are employees who have formal
@@ -46,12 +44,6 @@
     Unlike ESeC, the MultiClass schemes have no simplified variant for unknown
     employment status: column 1 of every {cmd:mc.} table is {cmd:.}, so
     observations with missing {it:sempl} come back uncoded.
-
-{pstd}
-    If your data already carries employment status on the 1-5 scale used by the
-    MultiClass source crosswalk files, use
-    {helpb _cwcasefcn_mcstatus5:case.mcstatus5()} instead. Do not pass such a
-    variable directly as the {it:case}: the column order here is not the same.
 
 {title:Examples}
 

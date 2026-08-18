@@ -32,7 +32,9 @@
 {title:Source}
 
 {pstd}
-    Direct lookup from {cmd:isco08 to microclass.dta}, 589 rows.
+    MultiClass crosswalk file for the 77-category micro-class
+    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);
+    see References.
     {p_end}
 
 {pstd}

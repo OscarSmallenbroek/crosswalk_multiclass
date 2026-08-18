@@ -1,5 +1,9 @@
-"""Generate the crosswalk add-on (multiclass-addon/) from the standalone
-multiclass package tables. Run from D:/work/multiclass-package."""
+"""Generate the crosswalk add-on (multiclass-addon/) from the tables in build/,
+as written by tools/make_tables.do. Run from D:/work/multiclass-package.
+
+Help-file text here is USER-facing: how to call the table, what the cases mean,
+which papers to cite. Derivation details, provenance and build mechanics belong
+in dev/DEVELOPMENT.md, not in shipped .sthlp files."""
 
 import io
 import os
@@ -29,41 +33,19 @@ SCHEMES = {
 # schemes actually generated as mc.<origin>_to_<scheme>() tables
 SHIPPED_SCHEMES = {k: v for k, v in SCHEMES.items() if k != "esec"}
 
-# Two ISCO-88 minor groups where crosswalk's own native ESeC table (the
-# Harrison/Rose matrix, via isco88_3_to_esec()) disagrees with what our
-# MicroSEC-derived ESeC-MP collapses to -- both well-known edge cases where
-# the ESeC employment-relation categories don't map cleanly onto the
-# occupation:
-#   011 Commissioned armed forces officers
-#       native ESeC, case 1-6 (unknown/emp-nosuper/emp-super/self-noemp/
-#       self-1to9/self-10plus) = 3,3,2,3,3,3
-#   621 Subsistence agricultural and fishery workers
-#       native ESeC = 5 throughout, regardless of employment status
-# Copied here -- translated into esecmp codes, choosing the "manager" half
-# of the ESeC-2 split for the one ambiguous cell (011's supervisor column),
-# consistent with a commanding/leadership occupation -- so that
-# collapse(mc.isco88_3_to_esecmp()) reproduces crosswalk's native ESeC for
-# these two minor groups exactly. This closes the only two ISCO-88
-# disagreements found by tools/test_addon_live.do (section B3) between our
-# ESeC-MP collapse and crosswalk's independently sourced ESeC table. It does
-# NOT touch the standalone multiclass package, whose own esec/esecmp nesting
-# is already exact against its own (different) native ESeC source; see the
-# multiclass README for that comparison.
+# The only hand-set values in the package, ISCO-88 only. Two minor groups where
+# our MicroSEC-derived ESeC-MP collapse disagreed with crosswalk's own native
+# isco88_to_esec() (the Harrison/Rose matrix), both classic edge cases where the
+# ESeC employment-relation categories don't map cleanly onto the occupation:
 #
-# Each value list holds exactly 5 entries for case2..case6 (employed w/o
-# super, employed w/ super, self no employees, self 1-9, self 10+) -- case1
-# (unknown) is never set here, matching every other row in this table, where
-# it is always "." (see mc_range()/mc_translate(): this package's schemes
-# have no "unknown employment status" column).
-# The override has to cover micro and meso as well, not just esecmp. All three
-# schemes are advertised to nest -- micro, meso and ESeC-MP must each determine
-# ESeC on their own -- so moving only ESeC-MP onto crosswalk's values would
-# leave micro and meso aggregating to a different ESeC class for these two
-# minor groups, breaking that guarantee (10 micro and 8 meso violations, all of
-# them here). The replacement classes are not invented: each is the class that
-# already corresponds to the ESeC-MP class the override sets, and the
-# micro -> meso pairings below are the ones the deterministic 30 -> 18 map
-# already uses everywhere else (verified in both ISCO versions):
+#   011 Commissioned armed forces officers      native ESeC case1-6 = 3,3,2,3,3,3
+#   621 Subsistence agricultural and fishery    native ESeC = 5 throughout
+#
+# The override MUST cover micro and meso too, not just esecmp: all three schemes
+# are advertised to nest, and moving only esecmp left micro and meso aggregating
+# to a different ESeC class here (10 and 8 violations). Each replacement is the
+# class already corresponding to the esecmp class being set, and every
+# micro -> meso pairing is the one the deterministic 30 -> 18 map already uses:
 #
 #   esecmp 5 "Higher-grade White-collar"  <- micro 52 "Armed forces"      -> meso 23
 #   esecmp 3 "Lower Manager"              <- micro 30 "Lower managers"    -> meso 22
@@ -71,10 +53,13 @@ SHIPPED_SCHEMES = {k: v for k, v in SCHEMES.items() if k != "esec"}
 #             Employer agriculture"       <- micro 70 "Primary production
 #                                              self-employed workers"    -> meso 15
 #
-# So 011 becomes Armed forces throughout except in the supervisory column,
-# where crosswalk's ESeC says 2 and the occupation reads as a commanding role,
-# giving Lower managers; and 621 becomes self-employed primary production
-# throughout, which is what subsistence agriculture is.
+# Each value list holds exactly 5 entries for case2..case6 (employed w/o super,
+# employed w/ super, self no employees, self 1-9, self 10+); case1 (unknown) is
+# never set here and is always "." like every other row.
+#
+# Full rationale, including the one genuine judgement call (011's supervisory
+# column), is in dev/DEVELOPMENT.md. This is deliberately NOT documented in the
+# shipped help files -- users never see the underlying tables.
 ESECMP_ESEC_OVERRIDE = {
     "011": ["5", "3", "5", "5", "5"],  # ESeC 3,2,3,3,3 (case2-6) -> esecmp
     "621": ["7", "7", "7", "7", "7"],  # ESeC 5,5,5,5,5 (case2-6) -> esecmp
@@ -98,12 +83,12 @@ OVERRIDE = {
 }
 
 # origin key -> (source file stem, key transform, crosswalk 4->3 fcn, nice name,
-#                provenance key, wrapper origin name)
+#                wrapper origin name)
 SOURCES = {
     "isco88": ("isco88com", lambda k: "%03d" % (int(k) // 10),
-               "isco88_to_isco88_3", "ISCO-88(com)", "isco88com", "isco88com"),
+               "isco88_to_isco88_3", "ISCO-88(com)", "isco88com"),
     "isco08": ("isco08", lambda k: "%03d" % (int(k) // 10),
-               "isco08_to_isco08_3", "ISCO-08", "isco08", "isco08"),
+               "isco08_to_isco08_3", "ISCO-08", "isco08"),
 }
 
 CASEDOC = """{pstd}
@@ -118,19 +103,9 @@ CASEDOC = """{pstd}
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout. The MultiClass schemes have no simplified
-    variant for unknown employment status, and {helpb crosswalk} sends every
-    observation whose {it:case} is missing or out of range to column 1, so
-    coding column 1 as missing is what makes those observations come back
-    uncoded instead of silently picking up another column.
-
-{pstd}
-    Use {helpb _cwcasefcn_mcempstat:case.mcempstat()} to build the case from
-    {it:sempl}/{it:supvis}, or {helpb _cwcasefcn_mcstatus5:case.mcstatus5()} if
-    your data already carries the 1-5 employment status coding used by the
-    MultiClass source files (1 = large employer, 2 = small employer,
-    3 = self-employed, 4 = supervisor, 5 = employee). Because column 1 is the
-    unknown case, do {it:not} pass a bare 1-5 status variable as the {it:case}.
+    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    variant for unknown employment status, so observations whose employment
+    status is unknown come back uncoded rather than picking up another class.
 """
 
 REFS = refs(REF_HERTEL_2025, REF_SMALLENBROEK_2022,
@@ -138,9 +113,6 @@ REFS = refs(REF_HERTEL_2025, REF_SMALLENBROEK_2022,
 
 REFS_MICROCLASS = refs(REF_MICROCLASS, REF_JONSSON_2009,
                        REF_WEEDEN_2005, REF_GRUSKY_2000, REF_JANN)
-
-DTA88 = "isco88com to MSECS v2 FINAL.dta"
-DTA08 = "isco08-to-meso.dta"
 
 # Class label text. These are the curated versions of the value labels carried
 # by the source .dta files: double spaces collapsed, and the source typo
@@ -216,27 +188,18 @@ LABELS = {
     ],
 }
 
+# Source sections point at the papers, not at internal file and variable
+# names: a user of the add-on never sees the underlying tables. The derivation
+# details live in dev/DEVELOPMENT.md.
 PROV = {
-    ("isco88com", "micro"):
-        "Direct lookup from {cmd:%s} (variable msecs_int)." % DTA88,
-    ("isco88com", "meso"):
-        "Derived from the micro-class via the deterministic micro-class to "
-        "meso-class map (30 -> 18).",
-    ("isco88com", "esec"):
-        "Direct lookup from {cmd:%s} (variable esec88)." % DTA88,
-    ("isco88com", "esecmp"):
-        "Derived from (micro-class, employment status) via the deterministic "
-        "map taken from {cmd:%s}." % DTA08,
-    ("isco08", "micro"):
-        "Direct lookup from {cmd:%s} (variable microSEC_int)." % DTA08,
-    ("isco08", "meso"):
-        "Direct lookup from {cmd:%s} (variable mesoSEC)." % DTA08,
-    ("isco08", "esec"):
-        "Derived by collapsing ESeC-MP: {c -(}1,2{c )-}->1, {c -(}3,4{c )-}->2, "
-        "5->3, 6->4, 7->5, 8->6, 9->7, 10->8, 11->9.",
-    ("isco08", "esecmp"):
-        "Direct lookup from {cmd:%s} (variable esec08_MP), gaps filled from "
-        "the (micro-class, employment status) map." % DTA08,
+    "micro": ["    MultiClass crosswalk files for MicroSEC, the 30-class scheme",
+              "    assessed in Hertel, Barone and Smallenbroek (2025); see",
+              "    References."],
+    "meso":  ["    MultiClass crosswalk files for the 18-class meso-class scheme,",
+              "    assessed in Hertel, Barone and Smallenbroek (2025); see",
+              "    References."],
+    "esecmp": ["    MultiClass crosswalk files for ESeC-MP, introduced in",
+               "    Smallenbroek, Hertel and Barone (2022); see References."],
 }
 
 
@@ -295,7 +258,7 @@ def main():
     # already ships isco88_to_esec()/isco08_to_esec(), so this package does
     # not (any longer) duplicate them -- see SHIPPED_SCHEMES above.
     stale = ["_cwfcn_labels_mc_esec.sthlp"]
-    for origin, (stem, keyfn, collapse, nicesrc, provkey, wrapname) in SOURCES.items():
+    for origin, (stem, keyfn, collapse, nicesrc, wrapname) in SOURCES.items():
         stale.append("_cwfcn_mc_%s_3_to_esec.sthlp" % origin)
         stale.append("_cwfcn_mc_%s_to_esec.sthlp" % wrapname)
     for f in stale:
@@ -305,7 +268,7 @@ def main():
             print("removed stale %s" % p)
 
     # ---------------------------------------------------- 3-digit tables
-    for origin, (stem, keyfn, collapse, nicesrc, provkey, _w) in SOURCES.items():
+    for origin, (stem, keyfn, collapse, nicesrc, _w) in SOURCES.items():
         resolved = read_resolved(origin)
         # keys that came straight from the source crosswalk file, as opposed to
         # rows filled in from the enclosing sub-major or major group
@@ -358,41 +321,12 @@ def main():
                   "    {cmd:.} and produce a missing value.",
                   "",
                   "{title:Source}", "",
-                  "{pstd}",
-                  "    " + PROV[(provkey, scheme)],
-                  "    {p_end}", ""]
+                  "{pstd}"] + PROV[scheme] + ["    {p_end}", ""]
             if origin == "isco88":
                 L += [ISCO88COM_NOTE_ADDON, ""]
             if scheme == "esecmp":
                 L += [ESEC_POINTER_SHORT, ""]
-            if origin == "isco88" and scheme in OVERRIDE:
-                L += ["{pstd}",
-                      "    Minor groups 011 (Commissioned armed forces officers)",
-                      "    and 621 (Subsistence agricultural and fishery workers)",
-                      "    are hand-set rather than derived: they are the only two",
-                      "    codes where the MicroSEC-based derivation disagreed with",
-                      "    {helpb crosswalk}'s own native",
-                      "    {helpb _cwfcn_isco88_to_esec:isco88_to_esec()}, both being",
-                      "    well-known edge cases where the ESeC employment-relation",
-                      "    categories do not apply cleanly to the occupation. ESeC-MP",
-                      "    was moved onto crosswalk's values, and the micro-class and",
-                      "    meso-class were moved with it so that all three schemes",
-                      "    still aggregate to the same ESeC class. 011 becomes Armed",
-                      "    forces, except in the supervisory column where it becomes",
-                      "    Lower managers; 621 becomes primary production",
-                      "    self-employed throughout.",
-                      "    {p_end}", ""]
             L += ["{pstd}",
-                  "    The table has a row for every 3-digit code that",
-                  "    {helpb _cwfcn_%s:%s()} can produce (%d in total). Of these,"
-                  % (collapse, collapse, len(keys)),
-                  "    %d are minor groups the source crosswalk does not list" % n_fallback,
-                  "    separately; they are filled from the enclosing sub-major or",
-                  "    major group, so that a code {helpb crosswalk} can produce",
-                  "    never comes back uncoded merely because the source file",
-                  "    happened not to list that minor group on its own.",
-                  "    {p_end}", "",
-                  "{pstd}",
                   "    Class labels: {helpb _cwfcn_labels_mc_%s:labels_mc_%s()}"
                   % (scheme, scheme),
                   "    {p_end}", "",
@@ -406,7 +340,7 @@ def main():
             made.append((path, "%d rows (%d filled)" % (len(rows), n_fallback)))
 
     # ---------------------------------------------------- 4-digit wrappers
-    for origin, (stem, keyfn, collapse, nicesrc, provkey, wrapname) in SOURCES.items():
+    for origin, (stem, keyfn, collapse, nicesrc, wrapname) in SOURCES.items():
         for scheme, (sname, ncls, sdesc) in SHIPPED_SCHEMES.items():
             fn = "mc_%s_to_%s" % (wrapname, scheme)
             L = header(fn, "Translate 4-digit %s to %s" % (nicesrc, sname))
@@ -439,6 +373,7 @@ def main():
                   "",
                   CASEDOC,
                   "{title:Source}", "",
+                  "{pstd}"] + PROV[scheme] + ["    {p_end}", "",
                   "{pstd}",
                   "    {cmd:%s()} is implemented as a wrapper for" % fn,
                   "    {helpb _cwfcn_%s:%s()} followed by" % (collapse, collapse),
@@ -449,14 +384,6 @@ def main():
                 L += [ISCO88COM_NOTE_ADDON, ""]
             if scheme == "esecmp":
                 L += [ESEC_POINTER_SHORT, ""]
-            if origin == "isco88" and scheme in OVERRIDE:
-                L += ["{pstd}",
-                      "    Minor groups 011 and 621 in the underlying 3-digit table",
-                      "    are hand-set so that all three schemes aggregate to",
-                      "    {helpb crosswalk}'s native ESeC; see",
-                      "    {helpb _cwfcn_mc_isco88_3_to_%s:mc_isco88_3_to_%s()}."
-                      % (scheme, scheme),
-                      "    {p_end}", ""]
             L += ["{pstd}",
                   "    Class labels: {helpb _cwfcn_labels_mc_%s:labels_mc_%s()}"
                   % (scheme, scheme),
@@ -504,7 +431,9 @@ def main():
           "",
           "{title:Source}", "",
           "{pstd}",
-          "    Direct lookup from {cmd:isco08 to microclass.dta}, 589 rows.",
+          "    MultiClass crosswalk file for the 77-category micro-class",
+          "    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);",
+          "    see References.",
           "    {p_end}", "",
           MICROCLASS_NOTE, "",
           "{pstd}",

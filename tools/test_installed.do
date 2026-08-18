@@ -74,7 +74,7 @@ clear
 set obs 5
 gen int  isco08  = 5221
 gen int  isco88  = 7300
-gen byte empstat = _n
+gen byte cwcase  = _n + 1
 gen byte sempl   = inlist(_n,1,2,3)
 gen byte supvis  = cond(_n==1,10,cond(_n==2,9,cond(_n==4,1,0)))
 gen str3 i3      = "522"
@@ -84,7 +84,7 @@ foreach o in isco08 isco88com {
     foreach s in micro meso esecmp {
         local src = cond("`o'"=="isco08","isco08","isco88")
         capture noisily quietly crosswalk v_`o'_`s' = ///
-            mc.`o'_to_`s'(`src' case.mcstatus5(empstat))
+            mc.`o'_to_`s'(`src' cwcase)
         if _rc {
             di as err "   FAILED mc.`o'_to_`s'() rc=" _rc
             local FAIL = `FAIL' + 1
@@ -95,7 +95,7 @@ di as txt "  -- the 6 3-digit tables --"
 foreach o in isco08 isco88 {
     foreach s in micro meso esecmp {
         capture noisily quietly crosswalk d_`o'_`s' = ///
-            mc.`o'_3_to_`s'(i3 case.mcstatus5(empstat))
+            mc.`o'_3_to_`s'(i3 cwcase)
         if _rc {
             di as err "   FAILED mc.`o'_3_to_`s'() rc=" _rc
             local FAIL = `FAIL' + 1
@@ -105,14 +105,14 @@ foreach o in isco08 isco88 {
 di as txt "  -- microclass (ISCO-08 only, no case) --"
 capture noisily quietly crosswalk v_microclass = mc.isco08_to_microclass(isco08)
 if _rc local FAIL = `FAIL' + 1
-di as txt "  -- both case functions --"
+di as txt "  -- the case function, and a bare case variable --"
 capture noisily quietly crosswalk c1 = mc.isco08_to_micro(isco08 case.mcempstat(sempl supvis))
 if _rc local FAIL = `FAIL' + 1
-capture noisily quietly crosswalk c2 = mc.isco08_to_micro(isco08 case.mcstatus5(empstat))
+capture noisily quietly crosswalk c2 = mc.isco08_to_micro(isco08 cwcase)
 if _rc local FAIL = `FAIL' + 1
 set varabbrev on
 
-list empstat v_isco08_micro v_isco08_meso v_isco08_esecmp, clean noobs sep(0)
+list cwcase v_isco08_micro v_isco08_meso v_isco08_esecmp, clean noobs sep(0)
 
 di as txt "  -- all 4 label sets came through --"
 foreach s in micro meso esecmp microclass {

@@ -40,21 +40,17 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout. The MultiClass schemes have no simplified
-    variant for unknown employment status, and {helpb crosswalk} sends every
-    observation whose {it:case} is missing or out of range to column 1, so
-    coding column 1 as missing is what makes those observations come back
-    uncoded instead of silently picking up another column.
-
-{pstd}
-    Use {helpb _cwcasefcn_mcempstat:case.mcempstat()} to build the case from
-    {it:sempl}/{it:supvis}, or {helpb _cwcasefcn_mcstatus5:case.mcstatus5()} if
-    your data already carries the 1-5 employment status coding used by the
-    MultiClass source files (1 = large employer, 2 = small employer,
-    3 = self-employed, 4 = supervisor, 5 = employee). Because column 1 is the
-    unknown case, do {it:not} pass a bare 1-5 status variable as the {it:case}.
+    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    variant for unknown employment status, so observations whose employment
+    status is unknown come back uncoded rather than picking up another class.
 
 {title:Source}
+
+{pstd}
+    MultiClass crosswalk files for MicroSEC, the 30-class scheme
+    assessed in Hertel, Barone and Smallenbroek (2025); see
+    References.
+    {p_end}
 
 {pstd}
     {cmd:mc_isco08_to_micro()} is implemented as a wrapper for

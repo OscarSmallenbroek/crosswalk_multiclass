@@ -32,8 +32,8 @@ gen int  isco          = 5221
 gen int  isco08        = 2411
 gen int  isco08extra   = 9999
 gen byte emp           = _n
-gen byte empstat       = _n
-gen byte empstatusfull = _n
+gen byte cwcase        = _n + 1
+gen byte cwcasefull    = _n + 1
 gen byte sempl         = inlist(_n,1,2,3)
 gen byte semplx        = 0
 gen byte supvis        = cond(_n==1,10,cond(_n==2,9,cond(_n==4,1,0)))
@@ -43,7 +43,7 @@ di as txt "  -- all 6 employment-relation tables --"
 foreach o in isco08 isco88com {
     foreach s in micro meso esecmp {
         capture noisily quietly crosswalk cw_`o'_`s' = ///
-            mc.`o'_to_`s'(isco08 case.mcstatus5(empstat))
+            mc.`o'_to_`s'(isco08 cwcase)
         if _rc {
             di as err "  FAILED mc.`o'_to_`s'() rc=" _rc
             local FAIL = `FAIL' + 1
@@ -55,7 +55,7 @@ gen str3 isco3 = "241"
 foreach o in isco08 isco88 {
     foreach s in micro meso esecmp {
         capture noisily quietly crosswalk d_`o'_`s' = ///
-            mc.`o'_3_to_`s'(isco3 case.mcstatus5(empstat))
+            mc.`o'_3_to_`s'(isco3 cwcase)
         if _rc {
             di as err "  FAILED mc.`o'_3_to_`s'() rc=" _rc
             local FAIL = `FAIL' + 1
@@ -68,7 +68,7 @@ if _rc {
     di as err "  FAILED mc.isco08_to_microclass() rc=" _rc
     local FAIL = `FAIL' + 1
 }
-di as txt "  -- both case functions --"
+di as txt "  -- the case function, with and without supvis --"
 capture noisily quietly crosswalk cf1 = mc.isco08_to_micro(isco08 case.mcempstat(sempl supvis))
 if _rc {
     di as err "  FAILED case.mcempstat() rc=" _rc
@@ -81,7 +81,7 @@ if _rc {
 }
 di as txt "  -- crosswalk's own native ESeC (not duplicated in the add-on) --"
 foreach f in isco08_to_esec isco88_to_esec {
-    capture noisily quietly crosswalk cw_`f' = `f'(isco08 empstat)
+    capture noisily quietly crosswalk cw_`f' = `f'(isco08 emp)
     if _rc {
         di as err "  FAILED `f'() rc=" _rc
         local FAIL = `FAIL' + 1
@@ -95,7 +95,7 @@ set varabbrev on
 di as txt "  varabbrev restored to: " as res "`c(varabbrev)'"
 foreach o in isco08 isco88com {
     foreach s in micro meso esecmp {
-        qui crosswalk on_`o'_`s' = mc.`o'_to_`s'(isco08 case.mcstatus5(empstat))
+        qui crosswalk on_`o'_`s' = mc.`o'_to_`s'(isco08 cwcase)
         qui count if !((on_`o'_`s'==cw_`o'_`s') | ///
             (missing(on_`o'_`s') & missing(cw_`o'_`s')))
         if r(N) {

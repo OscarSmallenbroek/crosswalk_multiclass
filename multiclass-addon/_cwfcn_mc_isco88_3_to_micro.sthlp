@@ -36,19 +36,9 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout. The MultiClass schemes have no simplified
-    variant for unknown employment status, and {helpb crosswalk} sends every
-    observation whose {it:case} is missing or out of range to column 1, so
-    coding column 1 as missing is what makes those observations come back
-    uncoded instead of silently picking up another column.
-
-{pstd}
-    Use {helpb _cwcasefcn_mcempstat:case.mcempstat()} to build the case from
-    {it:sempl}/{it:supvis}, or {helpb _cwcasefcn_mcstatus5:case.mcstatus5()} if
-    your data already carries the 1-5 employment status coding used by the
-    MultiClass source files (1 = large employer, 2 = small employer,
-    3 = self-employed, 4 = supervisor, 5 = employee). Because column 1 is the
-    unknown case, do {it:not} pass a bare 1-5 status variable as the {it:case}.
+    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    variant for unknown employment status, so observations whose employment
+    status is unknown come back uncoded rather than picking up another class.
 
 {pstd}
     Cells that the source tables leave unclassified are coded
@@ -57,7 +47,9 @@
 {title:Source}
 
 {pstd}
-    Direct lookup from {cmd:isco88com to MSECS v2 FINAL.dta} (variable msecs_int).
+    MultiClass crosswalk files for MicroSEC, the 30-class scheme
+    assessed in Hertel, Barone and Smallenbroek (2025); see
+    References.
     {p_end}
 
 {pstd}
@@ -66,33 +58,6 @@
     the European Union variant of the ISCO-88. If your data contains ISCO-88
     codes you might first want to translate these codes to ISCO-88(COM) using
     {helpb _cwfcn_isco88_to_isco88com:isco88_to_isco88com()}.
-
-{pstd}
-    Minor groups 011 (Commissioned armed forces officers)
-    and 621 (Subsistence agricultural and fishery workers)
-    are hand-set rather than derived: they are the only two
-    codes where the MicroSEC-based derivation disagreed with
-    {helpb crosswalk}'s own native
-    {helpb _cwfcn_isco88_to_esec:isco88_to_esec()}, both being
-    well-known edge cases where the ESeC employment-relation
-    categories do not apply cleanly to the occupation. ESeC-MP
-    was moved onto crosswalk's values, and the micro-class and
-    meso-class were moved with it so that all three schemes
-    still aggregate to the same ESeC class. 011 becomes Armed
-    forces, except in the supervisory column where it becomes
-    Lower managers; 621 becomes primary production
-    self-employed throughout.
-    {p_end}
-
-{pstd}
-    The table has a row for every 3-digit code that
-    {helpb _cwfcn_isco88_to_isco88_3:isco88_to_isco88_3()} can produce (155 in total). Of these,
-    9 are minor groups the source crosswalk does not list
-    separately; they are filled from the enclosing sub-major or
-    major group, so that a code {helpb crosswalk} can produce
-    never comes back uncoded merely because the source file
-    happened not to list that minor group on its own.
-    {p_end}
 
 {pstd}
     Class labels: {helpb _cwfcn_labels_mc_micro:labels_mc_micro()}
