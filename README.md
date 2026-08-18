@@ -11,7 +11,7 @@ All Multiclass crosswalks are implemented for 3-digit ISCO codes.
 | meso-class | 18 | `meso` | ISCO-88com, ISCO-08 |
 | ESeC-MP | 11 | `esecmp` | ISCO-88com, ISCO-08 |
 
-The add-on also provides a translation from ISCO-08 to microclass as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the Multiclass schema. 
+The add-on also provides a translation from ISCO-08 to **microclass** as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the Multiclass schema. 
 
 This is an **add-on for the [`crosswalk`](https://github.com/benjann/crosswalk)
 package** by Ben Jann. Like
@@ -128,28 +128,31 @@ version implemented in this package is under review.
 
 **The 77-category micro-class scheme** is documented in:
 
-> Smallenbroek, O., F. R. Hertel, C. Barone. n.d. Adapting the Microclass
+> Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass
 > Schema for Cross-national Research.
 > [osf.io/preprints/socarxiv/xaqju_v1](https://osf.io/preprints/socarxiv/xaqju_v1)
 
 It follows the micro-class approach of Grusky, Weeden and Sorensen (2000) and
 Weeden and Grusky (2005), emulating the categories of Jonsson et al. (2009).
 
-For **ESeC** itself see Harrison and Rose (2006), *The European Socio-economic
-Classification (ESeC) User Guide*, University of Essex. For the `crosswalk`
-command see Jann, B. 2025, Statistical Software Components S459534.
+Grusky, D. B., K. A. Weeden, J. B. Sorensen. 2000. The Case for Realism in
+    Class Analysis. Political Power and Social Theory 14:291-305.
 
-Full citations are in `help crosswalk_multiclass`.
+Harrison, E., D. Rose. 2006. The European Socio-economic Classification
+    (ESeC) User Guide. Institute for Social and Economic Research, University
+    of Essex.
+
+Jonsson, J. O., D. B. Grusky, M. Di Carlo, R. Pollak, M. C. Brinton. 2009.
+    Microclass Mobility: Social Reproduction in Four Countries. American
+    Journal of Sociology 114(4):977-1036. doi:10.1086/596566.
+
+Weeden, K. A., D. B. Grusky. 2005. The Case for a New Class Map. American
+    Journal of Sociology 111(1):141-212. doi:10.1086/428815.
+
 
 ## Author
 
 Oscar Smallenbroek.
-
-The `crosswalk` command this package extends is by Ben Jann.
-
-Jann, B. 2025. crosswalk: Stata module to recode variable based on
-    crosswalk table (bulk recoding). Available from
-    "https://ideas.repec.org/c/boc/bocode/s459420.html".
 
 ## Contributing
 
