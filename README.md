@@ -104,50 +104,54 @@ crosswalk esec = isco08_to_esec(isco08 case.esec(selfemp nsuperv))
 {1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7, 10→8, 11→9, and reproduces
 crosswalk's own ESeC tables exactly.
 
-## References
+## Sources
 
-**ESeC-MP** was introduced in:
+**ESeC-MP** was introduced in Smallenbroek, Hertel, and Barone, (2022). 
 
-> Smallenbroek, O., F. R. Hertel, C. Barone. 2022. Measuring Class Hierarchies
-> in Postindustrial Societies: A Criterion and Construct Validation of EGP and
-> ESEC Across 31 Countries. *Sociological Methods & Research* 53(3):1412–52.
-> [doi:10.1177/00491241221134522](https://doi.org/10.1177/00491241221134522)
-
-**ESeC-MP and MicroSEC** were assessed alongside other class schemes in:
-
-> Hertel, F. R., C. Barone, O. Smallenbroek. 2025. The Multiverse of Social
-> Class. A Large-Scale Assessment of Macro-Level, Meso-Level and Micro-Level
-> Approaches to Class Analysis. *European Societies* 1–65.
-> [doi:10.1162/euso_a_00044](https://doi.org/10.1162/euso_a_00044)
-
+**ESeC-MP and MicroSEC** were assessed alongside other class schemes in Hertel, Barone, and Smallenbroek (2025).
 Note that the MicroSEC assessed in Hertel et al. (2025) is an **earlier
-prototype**, whose development is documented at
-[osf.io/preprints/socarxiv/962q3_v1](https://osf.io/preprints/socarxiv/962q3_v1).
+prototype**, whose development is documented at [osf.io/preprints/socarxiv/962q3_v1](https://osf.io/preprints/socarxiv/962q3_v1).
 It is *not* the version of MicroSEC shipped here. The paper documenting the
 version implemented in this package is under review.
 
-**The 77-category micro-class scheme** is documented in:
-
-> Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass
-> Schema for Cross-national Research.
-> [osf.io/preprints/socarxiv/xaqju_v1](https://osf.io/preprints/socarxiv/xaqju_v1)
-
+**The 77-category micro-class scheme** is documented in Smallenbroek, Hertel and Barone (2026).
 It follows the micro-class approach of Grusky, Weeden and Sorensen (2000) and
 Weeden and Grusky (2005), emulating the categories of Jonsson et al. (2009).
 
-Grusky, D. B., K. A. Weeden, J. B. Sorensen. 2000. The Case for Realism in
-    Class Analysis. Political Power and Social Theory 14:291-305.
+## References
 
-Harrison, E., D. Rose. 2006. The European Socio-economic Classification
-    (ESeC) User Guide. Institute for Social and Economic Research, University
-    of Essex.
+Hertel, F. R., C. Barone, O. Smallenbroek. 2025. The Multiverse of Social
+Class. A Large-Scale Assessment of Macro-Level, Meso-Level and Micro-Level
+Approaches to Class Analysis. *European Societies* 1–65.
+[doi:10.1162/euso_a_00044](https://doi.org/10.1162/euso_a_00044).
+
+Smallenbroek, O., F. R. Hertel, C. Barone. 2022. Measuring Class Hierarchies in
+Postindustrial Societies: A Criterion and Construct Validation of EGP and ESEC
+Across 31 Countries. *Sociological Methods & Research* 53(3):1412–52.
+[doi:10.1177/00491241221134522](https://doi.org/10.1177/00491241221134522).
+
+Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass Schema
+for Cross-national Research.
+[osf.io/preprints/socarxiv/xaqju_v1](https://osf.io/preprints/socarxiv/xaqju_v1).
 
 Jonsson, J. O., D. B. Grusky, M. Di Carlo, R. Pollak, M. C. Brinton. 2009.
-    Microclass Mobility: Social Reproduction in Four Countries. American
-    Journal of Sociology 114(4):977-1036. doi:10.1086/596566.
+Microclass Mobility: Social Reproduction in Four Countries. *American Journal
+of Sociology* 114(4):977–1036.
+[doi:10.1086/596566](https://doi.org/10.1086/596566).
 
-Weeden, K. A., D. B. Grusky. 2005. The Case for a New Class Map. American
-    Journal of Sociology 111(1):141-212. doi:10.1086/428815.
+Weeden, K. A., D. B. Grusky. 2005. The Case for a New Class Map. *American
+Journal of Sociology* 111(1):141–212.
+[doi:10.1086/428815](https://doi.org/10.1086/428815).
+
+Grusky, D. B., K. A. Weeden, J. B. Sørensen. 2000. The Case for Realism in
+Class Analysis. *Political Power and Social Theory* 14:291–305.
+
+Harrison, E., D. Rose. 2006. The European Socio-economic Classification (ESeC)
+User Guide. Institute for Social and Economic Research, University of Essex.
+
+Jann, B. 2025. crosswalk: Stata module to recode variables based on crosswalk
+tables. Statistical Software Components S459534, Boston College Department of
+Economics.
 
 
 ## Author
