@@ -1,0 +1,60 @@
+v 3
+d 'CROSSWALK_MULTICLASS': module providing crosswalk tables to translate ISCO-88com and ISCO-08 into the MultiClass class schemes
+d
+d crosswalk_multiclass is an add-on for the crosswalk package by Ben
+d Jann. It provides crosswalk tables translating ISCO-88com and ISCO-08
+d occupational codes into class schemes of the MultiClass schema:
+d MicroSEC (30 classes), the meso-class scheme (18 classes), the ESeC
+d multi-purpose variant ESeC-MP (11 classes), and, for ISCO-08, a
+d 77-category micro-class scheme. MicroSEC, meso-class and ESeC-MP are
+d defined jointly over occupation and employment relation, so those
+d tables carry one destination column per employment status, and two
+d case functions are supplied to construct that argument; the
+d micro-class scheme is purely occupational and takes no case. Tables
+d are provided for 4-digit ISCO codes and, directly, for 3-digit ISCO
+d minor groups. The schemes nest: MicroSEC, the meso-class and ESeC-MP
+d each aggregate to the European Socio-economic Classification (ESeC).
+d This package does not duplicate plain ESeC itself, since crosswalk
+d already provides isco88_to_esec() and isco08_to_esec(); see help
+d crosswalk_multiclass for details and the correct case functions to use
+d with them. The package contains no ado-file and defines no command of
+d its own; all recoding is carried out by the crosswalk command.
+d
+d KW: ISCO-88com
+d KW: ISCO-08
+d KW: occupation
+d KW: social class
+d KW: ESeC
+d KW: ESeC-MP
+d KW: MicroSEC
+d KW: micro-class
+d KW: meso-class
+d KW: class scheme
+d KW: crosswalk
+d
+d Requires: Stata version 14 and crosswalk, moremata from SSC (q.v.)
+d
+d Distribution-Date: 20260818
+d
+d Author: Oscar Smallenbroek
+d
+f crosswalk_multiclass.sthlp
+f _cwcasefcn_mcempstat.sthlp
+f _cwcasefcn_mcstatus5.sthlp
+f _cwfcn_labels_mc_esecmp.sthlp
+f _cwfcn_labels_mc_meso.sthlp
+f _cwfcn_labels_mc_micro.sthlp
+f _cwfcn_labels_mc_microclass.sthlp
+f _cwfcn_mc_isco08_3_to_esecmp.sthlp
+f _cwfcn_mc_isco08_3_to_meso.sthlp
+f _cwfcn_mc_isco08_3_to_micro.sthlp
+f _cwfcn_mc_isco08_to_esecmp.sthlp
+f _cwfcn_mc_isco08_to_meso.sthlp
+f _cwfcn_mc_isco08_to_micro.sthlp
+f _cwfcn_mc_isco08_to_microclass.sthlp
+f _cwfcn_mc_isco88_3_to_esecmp.sthlp
+f _cwfcn_mc_isco88_3_to_meso.sthlp
+f _cwfcn_mc_isco88_3_to_micro.sthlp
+f _cwfcn_mc_isco88com_to_esecmp.sthlp
+f _cwfcn_mc_isco88com_to_meso.sthlp
+f _cwfcn_mc_isco88com_to_micro.sthlp

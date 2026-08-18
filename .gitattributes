@@ -1,0 +1,15 @@
+# SSC requires package files to be plain ASCII with LF line endings, and
+# tools/make_ssc_bundle.py asserts exactly that before it will build the zip.
+# core.autocrlf is on for this checkout, so without these rules a fresh clone
+# would hand every .sthlp back with CRLF endings and the bundle build would
+# fail (or, worse, ship CRLF files to the archive). Pin them to LF everywhere.
+*.sthlp text eol=lf
+*.pkg   text eol=lf
+*.toc   text eol=lf
+*.do    text eol=lf
+*.py    text eol=lf
+*.md    text eol=lf
+LICENSE text eol=lf
+
+# Stata datasets are binary; never line-ending-convert or try to diff them
+*.dta binary

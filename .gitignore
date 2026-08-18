@@ -1,0 +1,13 @@
+# Generated intermediates: rebuilt by tools/make_tables.do + tools/make_addon.py
+build/
+
+# Generated SSC submission bundle: rebuilt by tools/make_ssc_bundle.py
+dist/
+
+# Reference material, not part of the package
+papers/
+original crosswalk/
+
+# Python
+__pycache__/
+*.pyc
