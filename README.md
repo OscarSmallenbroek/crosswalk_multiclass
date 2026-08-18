@@ -106,11 +106,11 @@ crosswalk's own ESeC tables exactly.
 
 ## Sources
 
-**ESeC-MP** was introduced in Smallenbroek, Hertel, and Barone, (2022). 
+**ESeC-MP** was introduced in Smallenbroek, Hertel and Barone, (2022). 
 
 **ESeC-MP and MicroSEC** were assessed alongside other class schemes in Hertel, Barone, and Smallenbroek (2025).
 Note that the MicroSEC assessed in Hertel et al. (2025) is an **earlier
-prototype**, whose development is documented at [osf.io/preprints/socarxiv/962q3_v1](https://osf.io/preprints/socarxiv/962q3_v1).
+prototype**, whose development is documented at in Smallenbroek, Hertel and Barone (2023).
 It is *not* the version of MicroSEC shipped here. The paper documenting the
 version implemented in this package is under review.
 
@@ -129,6 +129,9 @@ Smallenbroek, O., F. R. Hertel, C. Barone. 2022. Measuring Class Hierarchies in
 Postindustrial Societies: A Criterion and Construct Validation of EGP and ESEC
 Across 31 Countries. *Sociological Methods & Research* 53(3):1412–52.
 [doi:10.1177/00491241221134522](https://doi.org/10.1177/00491241221134522).
+
+Smallenbroek O, Hertel FR, Barone C. 2023. The Micro Socio-Economic Class scheme. 
+[osf.io/preprints/socarxiv/962q3_v1](https://osf.io/preprints/socarxiv/962q3_v1)
 
 Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass Schema
 for Cross-national Research.
