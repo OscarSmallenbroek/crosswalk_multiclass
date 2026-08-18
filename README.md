@@ -1,14 +1,17 @@
 # crosswalk_multiclass
 
 Stata crosswalk tables translating **ISCO-88com** and **ISCO-08** occupational
-codes into the class schemes of the **MultiClass** schema.
+codes into the class schemes of the **MultiClass** schema. This is a nested set of schemas
+with a micro, meso and macro implementation which are modular and reduce to the well known ESEC schema (Harrison and Rose, 2006)
+All Multiclass crosswalks are implemented for 3-digit ISCO codes. 
 
 | scheme | classes | destination | available for |
 |---|---|---|---|
 | MicroSEC | 30 | `micro` | ISCO-88com, ISCO-08 |
 | meso-class | 18 | `meso` | ISCO-88com, ISCO-08 |
 | ESeC-MP | 11 | `esecmp` | ISCO-88com, ISCO-08 |
-| micro-class | 77 | `microclass` | ISCO-08 only |
+
+The add-on also provides a translation from ISCO-08 to microclass as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the Multiclass schema. 
 
 This is an **add-on for the [`crosswalk`](https://github.com/benjann/crosswalk)
 package** by Ben Jann. Like
@@ -47,22 +50,14 @@ help crosswalk_multiclass
 The tables use crosswalk's **prefix syntax** — `mc.`*origin*`_to_`*scheme*`()`.
 The `mc.` prefix is what makes crosswalk pick up this package's class labels.
 
-MicroSEC, the meso-class and ESeC-MP are defined jointly over occupation **and
-employment relation**, so they take a `case` argument built by
+MicroSEC, MesoSEC and ESeC-MP are defined jointly over occupation and
+employment relation, so they take a `case` argument built by
 `case.mcempstat()` from a self-employment indicator and a supervisory or
 employee-count variable:
 
 ```stata
 crosswalk micro  = mc.isco08_to_micro(isco08 case.mcempstat(selfemp nsuperv))
 crosswalk esecmp = mc.isco88com_to_esecmp(isco88 case.mcempstat(selfemp nsuperv))
-```
-
-All three at once:
-
-```stata
-foreach s in micro meso esecmp {
-    crosswalk `s' = mc.isco08_to_`s'(isco08 case.mcempstat(selfemp nsuperv))
-}
 ```
 
 3-digit data works directly, without the 4-digit wrapper:
@@ -92,39 +87,19 @@ The case follows the same convention as the ESeC tables that ship with
 | 5 | self-employed, 1–9 employees |
 | 6 | self-employed, 10 or more employees |
 
-Because this is crosswalk's standard numbering, `case.esec88()` also works with
-these tables and gives identical results.
 
-**Column 1 is missing in every table.** MultiClass has no simplified variant for
+Unlike ESEC, **Column 1 is missing in every table.** MultiClass has no simplified variant for
 unknown employment status, so observations whose employment status is unknown
 come back uncoded rather than silently picking up another class.
 
-## Two different "micro" schemes
-
-The package ships two unrelated schemes both loosely called "micro". Confusing
-them gives the wrong answer:
-
-- **`micro` (MicroSEC, 30 classes)** is assigned jointly with employment
-  relation and sits in the same hierarchy as `meso` and `esecmp`.
-- **`microclass` (77 categories, ISCO-08 only)** is purely occupational, does
-  not vary by employment status, and takes no case argument.
-
 ## Where is ESeC?
 
-There is no `mc.isco08_to_esec()` or `mc.isco88com_to_esec()`. `crosswalk`
-already ships `isco88_to_esec()` and `isco08_to_esec()` for plain 9-class ESeC —
+`crosswalk` already ships `isco88_to_esec()` and `isco08_to_esec()` for plain 9-class ESeC —
 use those:
 
 ```stata
 crosswalk esec = isco08_to_esec(isco08 case.esec(selfemp nsuperv))
 ```
-
-Note they take a **different case function**: `isco88_to_esec()` takes
-`case.esec88()` (6 columns, with an "unknown" case, the same numbering used
-here), while `isco08_to_esec()` takes `case.esec()` (5 columns, *no* "unknown"
-case). Passing the wrong one won't error; it will silently select the wrong
-columns.
-
 `mc.<origin>_to_esecmp()` aggregates to the same ESeC classes with the rule
 {1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7, 10→8, 11→9, and reproduces
 crosswalk's own ESeC tables exactly.
@@ -171,6 +146,10 @@ Full citations are in `help crosswalk_multiclass`.
 Oscar Smallenbroek.
 
 The `crosswalk` command this package extends is by Ben Jann.
+
+Jann, B. 2025. crosswalk: Stata module to recode variable based on
+    crosswalk table (bulk recoding). Available from
+    "https://ideas.repec.org/c/boc/bocode/s459420.html".
 
 ## Contributing
 

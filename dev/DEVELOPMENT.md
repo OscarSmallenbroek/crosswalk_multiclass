@@ -34,6 +34,10 @@ Three `.dta` files in `crosswalks/`, which do not all carry the same schemes:
 | `isco08-to-meso.dta` | micro (`microSEC_int`), meso (`mesoSEC`), ESeC-MP (`esec08_MP`) |
 | `isco08 to microclass.dta` | microclass (`micro_class`, 77) |
 
+Note that Multiclass schema include ESEC-MP [aka MacroSEC], MesoSEC, MicroSEC. These all nest into ESEC and assignment is guided by employment relations.
+ 
+The Microclass schema has another theoretical basis and is not nested in ESEC. It is based on occupational social closure and uses only ISCO codes for assignment.
+
 Facts established by inspecting them:
 
 - **`emp_stat` coding is 1 = large employer, 2 = small employer,
