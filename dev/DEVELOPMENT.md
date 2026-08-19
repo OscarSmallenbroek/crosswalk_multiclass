@@ -43,7 +43,7 @@ The Microclass schema has another theoretical basis and is not nested in ESEC. I
 Refer to the three nested schema as Multilevel Socio-Economic Classes (MSEC). 
 These include Macro-SEC, Meso-SEC and Micro-SEC. 
 
-Naming convention avoids confusion with microclasses. 
+Naming convention avoids confusion with microclasses (77 categories). Refer to it as microclass NOT micro-class
 
 Facts established by inspecting them:
 

@@ -14,7 +14,7 @@
 {pstd}
     {cmd:crosswalk_multiclass} provides {helpb crosswalk} tables translating
     ISCO-88com and ISCO-08 occupational codes into the Multilevel
-    Socio-Economic Classes (MSEC) schemes, plus a separate micro-class
+    Socio-Economic Classes (MSEC) schemes, plus a separate microclass
     scheme that is {bf:not} part of MSEC:
 
 {p2colset 9 26 28 2}{...}
@@ -22,23 +22,21 @@
 {p2col :{cmd:micro}}30  Micro-SEC (MSEC){p_end}
 {p2col :{cmd:meso}}18  Meso-SEC (MSEC){p_end}
 {p2col :{cmd:macro}}11  Macro-SEC - ESEC plus differentiation of professionals and managers in classes I and II (MSEC){p_end}
-{p2col :{cmd:microclass}}77  micro-class scheme (ISCO-08 only, {bf:not} MSEC){p_end}
 {p2colreset}{...}
 
 {pstd}
-    This package does not define any commands: all
+    This package also contains crosswalk for {cmd:microclass}, a 77  microclass scheme (ISCO-08 only, {bf:not} MSEC).
+    The microclass scheme is an ISCO-08 implementation of Jonsson, Grusky, Carlo,  Pollak and Brinton (2009) ISCO-88 crosswalk. 
+    The microclass scheme is not nested into ESEC or part of the MSEC. It is included here to facilitate replication of 
+    Hertel, Barone and Smallenbroek (2025) {browse "https://doi.org/10.1162/euso_a_00044":doi:10.1162/euso_a_00044}
+
+
+{pstd}
+    This package does not define any commands: all 
     recoding is carried out by {helpb crosswalk}. Install it with
 
         {cmd:. ssc install crosswalk, replace}
         {cmd:. ssc install moremata, replace}
-
-{pstd}
-    {bf:Two different micro-level schemes.} {cmd:micro} (Micro-SEC, 30 classes) is
-    assigned jointly with employment relation and nested into ESEC, same as
-    {cmd:meso} and {cmd:macro}. {cmd:microclass} (77 categories) is a separate, 
-    purely occupational schema. Included here to facilitate replication of 
-    Hertel, Barone and Smallenbroek (2025) {browse "https://doi.org/10.1162/euso_a_00044":doi:10.1162/euso_a_00044}
-
 
 {marker tables}{title:Tables}
 
@@ -220,8 +218,12 @@
     crosswalk tables. Statistical Software Components S459534, Boston College
     Department of Economics.
     {p_end}
-
-
+{phang}
+    Jonsson, J. O., D. B. Grusky, M. Di Carlo, R. Pollak, M. C. Brinton. 2009.
+    Microclass Mobility: Social Reproduction in Four Countries. *American Journal
+    of Sociology* 114(4):977–1036.
+    [doi:10.1086/596566](https://doi.org/10.1086/596566).
+{p_end}
 {title:Author}
 
 {pstd}
