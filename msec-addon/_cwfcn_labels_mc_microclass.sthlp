@@ -1,11 +1,11 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:labels_mc_microclass()} {hline 2} micro-class scheme class labels (English)
+{hi:labels_mc_microclass()} {hline 2} microclass scheme class labels (English)
 
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} label set for the micro-class scheme (77 categories).
+    {helpb crosswalk} label set for the microclass scheme (77 categories).
     Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_microclass()}
     tables when the prefix syntax {cmd:mc.} is used.
     {p_end}

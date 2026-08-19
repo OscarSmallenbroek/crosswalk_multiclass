@@ -5,6 +5,7 @@
 {viewerjumpto "Employment status" "crosswalk_multiclass##case"}{...}
 {viewerjumpto "Examples" "crosswalk_multiclass##examples"}{...}
 {viewerjumpto "Where is ESeC?" "crosswalk_multiclass##esec"}{...}
+{viewerjumpto "Sources" "crosswalk_multiclass##sources"}{...}
 {viewerjumpto "References" "crosswalk_multiclass##refs"}{...}
 {hi:crosswalk_multiclass} {hline 2} Crosswalk tables for the Multilevel Socio-Economic Classes class schemes
 
@@ -54,7 +55,7 @@
 {p2col :{helpb _cwfcn_mc_isco08_to_micro:mc.isco08_to_micro()}}ISCO-08 to Micro-SEC{p_end}
 {p2col :{helpb _cwfcn_mc_isco08_to_meso:mc.isco08_to_meso()}}ISCO-08 to Meso-SEC{p_end}
 {p2col :{helpb _cwfcn_mc_isco08_to_macro:mc.isco08_to_macro()}}ISCO-08 to Macro-SEC{p_end}
-{p2col :{helpb _cwfcn_mc_isco08_to_microclass:mc.isco08_to_microclass()}}ISCO-08 to micro-class (no case){p_end}
+{p2col :{helpb _cwfcn_mc_isco08_to_microclass:mc.isco08_to_microclass()}}ISCO-08 to microclass (no case){p_end}
 {p2colreset}{...}
 
 {pstd}
@@ -70,7 +71,7 @@
     {it:and} employment relation, so those tables take a
     {help crosswalk##case:case} argument; see
     {help crosswalk_multiclass##case:Employment status} below. The 77-category
-    micro-class scheme is purely occupational and takes no case.
+    microclass scheme is purely occupational and takes no case.
     
 {pstd}
     Case function:
@@ -123,7 +124,7 @@
 {pstd}3-digit minor groups:{p_end}
 {phang2}{cmd:. crosswalk meso = mc.isco08_3_to_meso(isco3 case.mcempstat(selfemp nsuperv))}{p_end}
 
-{pstd}The micro-class scheme, which takes no case:{p_end}
+{pstd}The microclass scheme, which takes no case:{p_end}
 {phang2}{cmd:. crosswalk microclass = mc.isco08_to_microclass(isco08)}{p_end}
 
 
@@ -139,28 +140,28 @@
     the same numbering used here), while {cmd:isco08_to_esec()} takes
     {helpb _cwcasefcn_esec:case.esec()} (5 columns, {it:no} "unknown" case).
     Note these treat missing values differently from {helpb _cwcasefcn_mcempstat:case.mcempstat()}, 
-    which treats any missing data as unknown employment status. 
+    which treats any missing data as unknown employment status. {p_end}
 
-{marker refs}{title:Sources}
+{marker sources}{title:Sources}
 
 {pstd}
     Smallenbroek, Hertel and Barone (2022) introduced Macro-SEC. Hertel, Barone
     and Smallenbroek (2025) assessed Macro-SEC and Micro-SEC alongside other class
-    schemes.
+    schemes.{p_end}
 
 {pstd}
     Note that the Micro-SEC assessed in Hertel et al. (2025) is an earlier
     prototype, whose development is documented at
     {browse "https://osf.io/preprints/socarxiv/962q3_v1"}. It is {it:not} the
     version of Micro-SEC shipped here. The paper documenting the version
-    implemented in this package is under review.
+    implemented in this package is under review.{p_end}
 
 {pstd}
-    The micro-class scheme is a separate 77-category schema built from ISCO-08
-    occupational titles and descriptions, following the micro-class approach of
+    The microclass scheme is a separate 77-category schema built from ISCO-08
+    occupational titles and descriptions, following the microclass approach of
     Grusky, Weeden and Sorensen (2000) and Weeden and Grusky (2005) and
     emulating the categories of Jonsson et al. (2009). It is documented in
-    Smallenbroek, Hertel and Barone (2026).
+    Smallenbroek, Hertel and Barone (2026).{p_end}
 
 {marker refs}{title:References}
 
@@ -217,12 +218,7 @@
     crosswalk tables. Statistical Software Components S459534, Boston College
     Department of Economics.
     {p_end}
-{phang}
-    Jonsson, J. O., D. B. Grusky, M. Di Carlo, R. Pollak, M. C. Brinton. 2009.
-    Microclass Mobility: Social Reproduction in Four Countries. *American Journal
-    of Sociology* 114(4):977–1036.
-    [doi:10.1086/596566](https://doi.org/10.1086/596566).
-{p_end}
+
 {title:Author}
 
 {pstd}

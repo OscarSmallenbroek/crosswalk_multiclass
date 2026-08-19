@@ -398,13 +398,13 @@ def main():
             write(path, L)
             made.append((path, "wrapper"))
 
-    # ------------------------------------------ micro-class (no case)
+    # ------------------------------------------ microclass (no case)
     # 77 categories, ISCO-08 only, purely occupational. Kept at 4-digit
     # unit-group resolution, so it is a direct table rather than a wrapper
     # through crosswalk's 4-to-3 digit collapse, which would lose that detail.
     rows = read_src("isco08", "microclass")
     fn = "mc_isco08_to_microclass"
-    L = header(fn, "Translate 4-digit ISCO-08 to the micro-class scheme")
+    L = header(fn, "Translate 4-digit ISCO-08 to the microclass scheme")
     L += ["{title:Syntax}", "",
           "        {cmd:mc.isco08_to_microclass(}{it:varname}{cmd:)}",
           "",
@@ -415,7 +415,7 @@ def main():
           "{title:Description}", "",
           "{pstd}",
           "    {helpb crosswalk} table translating 4-digit ISCO-08 codes to the",
-          "    Micro-class scheme (77 categories).",
+          "    microclass scheme (77 categories).",
           "",
           "{pstd}",
           "    Unlike the other {cmd:mc.} tables this one is purely",
@@ -432,7 +432,7 @@ def main():
           "",
           "{title:Source}", "",
           "{pstd}",
-          "    Crosswalk file for the 77-category micro-class",
+          "    Crosswalk file for the 77-category microclass",
           "    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);",
           "    see References.",
           "    {p_end}", "",
@@ -452,8 +452,8 @@ def main():
 
     # ---------------------------------------------------- label sets
     for scheme, (sname, ncls, sdesc) in list(SHIPPED_SCHEMES.items()) + [
-            ("microclass", ("micro-class scheme", 77,
-                            "micro-class scheme (77 categories)"))]:
+            ("microclass", ("microclass scheme", 77,
+                            "microclass scheme (77 categories)"))]:
         if scheme == "microclass":
             # 77 labels, straight from the micro08 value label in the source
             # .dta via tools/make_tables.do
