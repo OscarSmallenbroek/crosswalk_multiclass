@@ -1,4 +1,4 @@
-"""Generate the crosswalk add-on (multiclass-addon/) from the tables in build/,
+"""Generate the crosswalk add-on (msec-addon/) from the tables in build/,
 as written by tools/make_tables.do. Run from D:/work/multiclass-package.
 
 Help-file text here is USER-facing: how to call the table, what the cases mean,
@@ -17,39 +17,39 @@ from citations import (ESEC_POINTER_SHORT,
                        REF_WEEDEN_2005, refs)
 
 BUILD = "build"
-OUT = "multiclass-addon"
+OUT = "msec-addon"
 
 # esec is kept here so read_resolved() can still find its CSV column, but it is
 # NOT shipped as an mc.<origin>_to_esec() table: crosswalk already provides
 # isco88_to_esec() and isco08_to_esec(), and duplicating them here would risk
 # the two falling out of step. See SHIPPED_SCHEMES and ESEC_POINTER_SHORT.
 SCHEMES = {
-    "micro":  ("micro-class", 30, "MultiClass micro-class scheme (30 classes)"),
-    "meso":   ("meso-class",  18, "MultiClass meso-class scheme (18 classes)"),
+    "micro":  ("Micro-SEC", 30, "Multilevel Socio-Economic Classes: Micro-SEC (30 classes)"),
+    "meso":   ("Meso-SEC",  18, "Multilevel Socio-Economic Classes: Meso-SEC (18 classes)"),
     "esec":   ("ESeC",         9, "European Socio-economic Classification (9 classes)"),
-    "esecmp": ("ESeC-MP",     11, "ESeC multi-purpose variant (11 classes)"),
+    "macro": ("Macro-SEC",     11, "Macro-SEC - ESEC plus differentiation of SC I and II (11 classes)"),
 }
 
 # schemes actually generated as mc.<origin>_to_<scheme>() tables
 SHIPPED_SCHEMES = {k: v for k, v in SCHEMES.items() if k != "esec"}
 
 # The only hand-set values in the package, ISCO-88 only. Two minor groups where
-# our MicroSEC-derived ESeC-MP collapse disagreed with crosswalk's own native
+# our Micro-SEC-derived Macro-SEC collapse disagreed with crosswalk's own native
 # isco88_to_esec() (the Harrison/Rose matrix), both classic edge cases where the
 # ESeC employment-relation categories don't map cleanly onto the occupation:
 #
 #   011 Commissioned armed forces officers      native ESeC case1-6 = 3,3,2,3,3,3
 #   621 Subsistence agricultural and fishery    native ESeC = 5 throughout
 #
-# The override MUST cover micro and meso too, not just esecmp: all three schemes
-# are advertised to nest, and moving only esecmp left micro and meso aggregating
+# The override MUST cover micro and meso too, not just macro: all three schemes
+# are advertised to nest, and moving only macro left micro and meso aggregating
 # to a different ESeC class here (10 and 8 violations). Each replacement is the
-# class already corresponding to the esecmp class being set, and every
+# class already corresponding to the macro class being set, and every
 # micro -> meso pairing is the one the deterministic 30 -> 18 map already uses:
 #
-#   esecmp 5 "Higher-grade White-collar"  <- micro 52 "Armed forces"      -> meso 23
-#   esecmp 3 "Lower Manager"              <- micro 30 "Lower managers"    -> meso 22
-#   esecmp 7 "Self-employed and Small
+#   macro 5 "Higher-grade White-collar"  <- micro 52 "Armed forces"      -> meso 23
+#   macro 3 "Lower Manager"              <- micro 30 "Lower managers"    -> meso 22
+#   macro 7 "Self-employed and Small
 #             Employer agriculture"       <- micro 70 "Primary production
 #                                              self-employed workers"    -> meso 15
 #
@@ -60,9 +60,9 @@ SHIPPED_SCHEMES = {k: v for k, v in SCHEMES.items() if k != "esec"}
 # Full rationale, including the one genuine judgement call (011's supervisory
 # column), is in dev/DEVELOPMENT.md. This is deliberately NOT documented in the
 # shipped help files -- users never see the underlying tables.
-ESECMP_ESEC_OVERRIDE = {
-    "011": ["5", "3", "5", "5", "5"],  # ESeC 3,2,3,3,3 (case2-6) -> esecmp
-    "621": ["7", "7", "7", "7", "7"],  # ESeC 5,5,5,5,5 (case2-6) -> esecmp
+MACRO_ESEC_OVERRIDE = {
+    "011": ["5", "3", "5", "5", "5"],  # ESeC 3,2,3,3,3 (case2-6) -> macro
+    "621": ["7", "7", "7", "7", "7"],  # ESeC 5,5,5,5,5 (case2-6) -> macro
 }
 
 MICRO_ESEC_OVERRIDE = {
@@ -77,7 +77,7 @@ MESO_ESEC_OVERRIDE = {
 
 # scheme -> the override table to apply to the ISCO-88 3-digit tables
 OVERRIDE = {
-    "esecmp": ESECMP_ESEC_OVERRIDE,
+    "macro": MACRO_ESEC_OVERRIDE,
     "micro":  MICRO_ESEC_OVERRIDE,
     "meso":   MESO_ESEC_OVERRIDE,
 }
@@ -103,7 +103,7 @@ CASEDOC = """{pstd}
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 """
@@ -173,7 +173,7 @@ LABELS = {
         (48, "Technical workers"),
         (49, "Routine technical workers"),
     ],
-    "esecmp": [
+    "macro": [
         (1, "Higher Manager"),
         (2, "Higher Professional"),
         (3, "Lower Manager"),
@@ -192,14 +192,15 @@ LABELS = {
 # names: a user of the add-on never sees the underlying tables. The derivation
 # details live in dev/DEVELOPMENT.md.
 PROV = {
-    "micro": ["    MultiClass crosswalk files for MicroSEC, the 30-class scheme",
-              "    assessed in Hertel, Barone and Smallenbroek (2025); see",
+    "micro": ["    Multilevel Socio-Economic Classes crosswalk files for Micro-SEC,",
+              "    the 30-class scheme assessed in Hertel, Barone and Smallenbroek",
+              "    (2025); see References."],
+    "meso":  ["    Multilevel Socio-Economic Classes crosswalk files for Meso-SEC,",
+              "    the 18-class scheme assessed in Hertel, Barone and Smallenbroek",
+              "    (2025); see References."],
+    "macro": ["    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC,",
+              "    introduced in Smallenbroek, Hertel and Barone (2022); see",
               "    References."],
-    "meso":  ["    MultiClass crosswalk files for the 18-class meso-class scheme,",
-              "    assessed in Hertel, Barone and Smallenbroek (2025); see",
-              "    References."],
-    "esecmp": ["    MultiClass crosswalk files for ESeC-MP, introduced in",
-               "    Smallenbroek, Hertel and Barone (2022); see References."],
 }
 
 
@@ -324,7 +325,7 @@ def main():
                   "{pstd}"] + PROV[scheme] + ["    {p_end}", ""]
             if origin == "isco88":
                 L += [ISCO88COM_NOTE_ADDON, ""]
-            if scheme == "esecmp":
+            if scheme == "macro":
                 L += [ESEC_POINTER_SHORT, ""]
             L += ["{pstd}",
                   "    Class labels: {helpb _cwfcn_labels_mc_%s:labels_mc_%s()}"
@@ -366,8 +367,8 @@ def main():
                   "{title:Description}", "",
                   "{pstd}",
                   "    {helpb crosswalk} table translating 4-digit %s codes to" % nicesrc,
-                  "    the %s. Note that the MultiClass" % sdesc,
-                  "    schemes are defined at the level of minor ISCO groups",
+                  "    the %s. Note that the Multilevel Socio-Economic Classes" % sdesc,
+                  "    are defined at the level of minor ISCO groups",
                   "    (3 digit); that is, all unit groups within a minor group",
                   "    translate into the same class.",
                   "",
@@ -382,7 +383,7 @@ def main():
                   "    {p_end}", ""]
             if origin == "isco88":
                 L += [ISCO88COM_NOTE_ADDON, ""]
-            if scheme == "esecmp":
+            if scheme == "macro":
                 L += [ESEC_POINTER_SHORT, ""]
             L += ["{pstd}",
                   "    Class labels: {helpb _cwfcn_labels_mc_%s:labels_mc_%s()}"
@@ -414,7 +415,7 @@ def main():
           "{title:Description}", "",
           "{pstd}",
           "    {helpb crosswalk} table translating 4-digit ISCO-08 codes to the",
-          "    MultiClass micro-class scheme (77 categories).",
+          "    Micro-class scheme (77 categories).",
           "",
           "{pstd}",
           "    Unlike the other {cmd:mc.} tables this one is purely",
@@ -431,7 +432,7 @@ def main():
           "",
           "{title:Source}", "",
           "{pstd}",
-          "    MultiClass crosswalk file for the 77-category micro-class",
+          "    Crosswalk file for the 77-category micro-class",
           "    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);",
           "    see References.",
           "    {p_end}", "",
@@ -452,7 +453,7 @@ def main():
     # ---------------------------------------------------- label sets
     for scheme, (sname, ncls, sdesc) in list(SHIPPED_SCHEMES.items()) + [
             ("microclass", ("micro-class scheme", 77,
-                            "MultiClass micro-class scheme (77 categories)"))]:
+                            "micro-class scheme (77 categories)"))]:
         if scheme == "microclass":
             # 77 labels, straight from the micro08 value label in the source
             # .dta via tools/make_tables.do
@@ -475,7 +476,7 @@ def main():
               "    tables when the prefix syntax {cmd:mc.} is used.",
               "    {p_end}", "",
               "{pstd}",
-              "    Taken from the value labels carried by the MultiClass source",
+              "    Taken from the value labels carried by the source",
               "    crosswalk files.",
               "    {p_end}",
               "{hline}",

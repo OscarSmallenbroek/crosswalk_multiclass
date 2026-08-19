@@ -81,7 +81,7 @@ gen str3 i3      = "522"
 
 di as txt "  -- all 6 employment-relation tables --"
 foreach o in isco08 isco88com {
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         local src = cond("`o'"=="isco08","isco08","isco88")
         capture noisily quietly crosswalk v_`o'_`s' = ///
             mc.`o'_to_`s'(`src' cwcase)
@@ -93,7 +93,7 @@ foreach o in isco08 isco88com {
 }
 di as txt "  -- the 6 3-digit tables --"
 foreach o in isco08 isco88 {
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         capture noisily quietly crosswalk d_`o'_`s' = ///
             mc.`o'_3_to_`s'(i3 cwcase)
         if _rc {
@@ -112,10 +112,10 @@ capture noisily quietly crosswalk c2 = mc.isco08_to_micro(isco08 cwcase)
 if _rc local FAIL = `FAIL' + 1
 set varabbrev on
 
-list cwcase v_isco08_micro v_isco08_meso v_isco08_esecmp, clean noobs sep(0)
+list cwcase v_isco08_micro v_isco08_meso v_isco08_macro, clean noobs sep(0)
 
 di as txt "  -- all 4 label sets came through --"
-foreach s in micro meso esecmp microclass {
+foreach s in micro meso macro microclass {
     if "`s'"=="microclass" local v v_microclass
     else                   local v v_isco08_`s'
     local lb : value label `v'

@@ -31,12 +31,19 @@ Three `.dta` files in `crosswalks/`, which do not all carry the same schemes:
 | file | provides |
 |---|---|
 | `isco88com to MSECS v2 FINAL.dta` | micro (`msecs_int`), native ESeC (`esec88`) |
-| `isco08-to-meso.dta` | micro (`microSEC_int`), meso (`mesoSEC`), ESeC-MP (`esec08_MP`) |
+| `isco08-to-meso.dta` | micro (`microSEC_int`), meso (`mesoSEC`), Macro-SEC (`esec08_MP`) |
 | `isco08 to microclass.dta` | microclass (`micro_class`, 77) |
 
-Note that Multiclass schema include ESEC-MP [aka MacroSEC], MesoSEC, MicroSEC. These all nest into ESEC and assignment is guided by employment relations.
+Note that Multilevel Socio-Economic Class schemas include Macro-SEC, Meso-SEC, Micro-SEC. These all nest into ESEC and assignment is guided by employment relations.
  
 The Microclass schema has another theoretical basis and is not nested in ESEC. It is based on occupational social closure and uses only ISCO codes for assignment.
+
+## Jargon
+
+Refer to the three nested schema as Multilevel Socio-Economic Classes (MSEC). 
+These include Macro-SEC, Meso-SEC and Micro-SEC. 
+
+Naming convention avoids confusion with microclasses. 
 
 Facts established by inspecting them:
 
@@ -48,13 +55,13 @@ Facts established by inspecting them:
   deliberately not exposed in the add-on's design.
 - All shipped tables use one 4-digit right-padded key convention:
   1000 major, 1100 sub-major, 1110 minor, 1111 unit group.
-- meso is a deterministic function of micro (30 → 18), verified no violations.
-- ESeC-MP is a deterministic function of (micro, `emp_stat`), 59 cells.
-- ESeC-MP collapses to ESeC: {1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7,
+- Meso-SEC is a deterministic function of Micro-SEC (30 → 18), verified no violations.
+- Macro-SEC is a deterministic function of (Micro-SEC, `emp_stat`), 59 cells.
+- Macro-SEC collapses to ESeC: {1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7,
   10→8, 11→9.
 
 Two of the shipped combinations are **derived**, each verified against the
-sources first: meso from micro, and ESeC-MP from (micro, employment status).
+sources first: meso from micro, and Macro-SEC from (micro, employment status).
 Native values always win over derived ones. `microclass` is a direct lookup
 with no derivation and no employment-status dimension.
 
@@ -76,8 +83,8 @@ previously contradicted.
 
 The only hand-set values in the package, ISCO-88 only.
 
-Our ESeC-MP collapse and crosswalk's native `isco88_to_esec()` are
-**independently sourced** — ours from the MicroSEC files, theirs from the
+Our Macro-SEC collapse and crosswalk's native `isco88_to_esec()` are
+**independently sourced** — ours from the Micro-SEC files, theirs from the
 Harrison/Rose matrix — and were never guaranteed to agree. They disagreed on 8
 cells, all inside minor groups 011 (Commissioned armed forces officers) and 621
 (Subsistence agricultural and fishery workers), both classic edge cases where
@@ -85,20 +92,20 @@ ESeC's employment-relation categories don't apply cleanly to the occupation.
 
 Those two minor groups are hand-set in `OVERRIDE` in `tools/make_addon.py`.
 
-**The override must cover micro and meso, not just ESeC-MP.** Setting only
-ESeC-MP left micro and meso aggregating to a different ESeC class for these
+**The override must cover micro and meso, not just Macro-SEC.** Setting only
+Macro-SEC left micro and meso aggregating to a different ESeC class for these
 codes — 10 micro and 8 meso nesting violations, every one of them traceable to
 these two groups. Since all three schemes are advertised to nest, that made a
 documented property false. Values, by crosswalk case 2–6:
 
-| minor group | column | micro | meso | ESeC-MP | → ESeC |
+| minor group | column | micro | meso | Macro-SEC | → ESeC |
 |---|---|---|---|---|---|
 | 011 | supervisory (case 3) | 30 Lower managers | 22 Lower administrative managers and professionals | 3 Lower Manager | 2 |
 | 011 | all others | 52 Armed forces | 23 Associate administrative professionals | 5 Higher-grade White-collar | 3 |
 | 621 | all | 70 Primary production self-employed workers | 15 Self-employed agriculture | 7 Self-employed and Small Employer agriculture | 5 |
 
 These are not invented. Each replacement is the class that already corresponds
-to the ESeC-MP class being set, and every micro→meso pairing (52→23, 30→22,
+to the Macro-SEC class being set, and every micro→meso pairing (52→23, 30→22,
 70→15) is the one the deterministic 30→18 map already uses everywhere else,
 verified in both ISCO versions. The one genuine judgement call is 011's
 supervisory column: crosswalk says ESeC 2, and a commanding role reads as the
@@ -144,7 +151,7 @@ Run from the repository root, in order:
 
 ### Things that will bite you
 
-- **Class label text for micro/meso/esecmp is a curated dict (`LABELS`) inside
+- **Class label text for micro/meso/macro is a curated dict (`LABELS`) inside
   `make_addon.py`, not re-read from the `.dta`.** It carries fixes — collapsed
   double spaces, and the source typo `Techincal` → `Technical` — that a raw
   re-read would silently lose. `microclass` labels do come from the `.dta`, via
@@ -185,11 +192,11 @@ never for checking them.
   string input, with a hand-built case, and the 3-digit table applied directly
   to crosswalk's own collapsed code. The fourth route is what catches a 3-digit
   table missing a row the collapse can emit.
-- **D1, ESeC parity.** Collapsing ESeC-MP must equal native
+- **D1, ESeC parity.** Collapsing Macro-SEC must equal native
   `isco88_to_esec()`/`isco08_to_esec()` on every comparable cell: 2,531 and
   2,930, **0 disagreements**. Genuinely external, since the two are
   independently sourced.
-- **D2, nesting.** micro, meso and ESeC-MP each determine ESeC on their own.
+- **D2, nesting.** micro, meso and Macro-SEC each determine ESeC on their own.
 - micro-class unit-group detail survives; labels attach; case-function
   semantics; invalid codes and cases fail safe.
 
@@ -219,13 +226,13 @@ had to be checked by fetching it rather than by running `net describe`.
   crosswalk's conventions: the add-on exposes only the standard 6-column case,
   built by `case.mcempstat()`. The source tables' 5-column shape is an
   implementation detail, not part of the interface.
-- **Column 1 is `.` in every table.** MultiClass has no simplified variant for
+- **Column 1 is `.` in every table.** MSEC has no simplified variant for
   unknown employment status, and crosswalk sends observations with a missing or
   out-of-range case to column 1. Coding it missing is what makes those
   observations come back uncoded instead of silently picking up another class.
 - **`mc.` prefix syntax** is what makes crosswalk pick up the `labels_mc_*`
   label sets rather than same-named labels from crosswalk or another add-on.
 - **Two different "micro" schemes** ship here and confusing them gives wrong
-  answers: `micro` (MicroSEC, 30, jointly assigned with employment relation) and
+  answers: `micro` (Micro-SEC, 30, jointly assigned with employment relation) and
   `microclass` (77, ISCO-08 only, purely occupational). Both the README and the
   help file carry an explicit warning.

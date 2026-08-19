@@ -13,7 +13,7 @@
 *! Three kinds of check, none needing anything outside crosswalk:
 *!   1. INTERNAL CONSISTENCY -- the several routes crosswalk offers to the same
 *!      answer must all agree.
-*!   2. EXTERNAL PARITY -- collapsing our ESeC-MP must reproduce crosswalk's own
+*!   2. EXTERNAL PARITY -- collapsing our Macro-SEC must reproduce crosswalk's own
 *!      native isco88_to_esec()/isco08_to_esec() exactly. A real external check:
 *!      crosswalk's ESeC comes from the Harrison/Rose matrix, ours from the
 *!      MicroSEC files.
@@ -68,10 +68,10 @@ if _rc==0 {
 *=====================================================================
 di as txt ""
 di as txt "############ B. EVERY SHIPPED TABLE LOADS ############"
-foreach f in mc_isco88com_to_micro mc_isco88com_to_meso mc_isco88com_to_esecmp ///
-             mc_isco08_to_micro   mc_isco08_to_meso   mc_isco08_to_esecmp   ///
-             mc_isco88_3_to_micro mc_isco88_3_to_meso mc_isco88_3_to_esecmp ///
-             mc_isco08_3_to_micro mc_isco08_3_to_meso mc_isco08_3_to_esecmp ///
+foreach f in mc_isco88com_to_micro mc_isco88com_to_meso mc_isco88com_to_macro ///
+             mc_isco08_to_micro   mc_isco08_to_meso   mc_isco08_to_macro   ///
+             mc_isco88_3_to_micro mc_isco88_3_to_meso mc_isco88_3_to_macro ///
+             mc_isco08_3_to_micro mc_isco08_3_to_meso mc_isco08_3_to_macro ///
              mc_isco08_to_microclass {
     capture quietly crosswalk list `f'()
     local rc = _rc
@@ -133,14 +133,14 @@ foreach v in isco08 isco88 {
     di as txt "  4-digit codes from `v'_to_`v'_3(): " as res `ncodes' ///
         as txt "   rows: " as res _N
 
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         qui crosswalk cwn_`s' = mc.`orig'_to_`s'(isco4num cwcase)
         qui crosswalk cws_`s' = mc.`orig'_to_`s'(isco4str cwcase)
         qui crosswalk cwf_`s' = mc.`orig'_to_`s'(isco4num case.mcempstat(sempl supvis))
         qui crosswalk cw3_`s' = mc.`v'_3_to_`s'(isco3str cwcase)
     }
 
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         local bad 0
         foreach r in cws cwf cw3 {
             qui count if !((`r'_`s'==cwn_`s') | (missing(`r'_`s') & missing(cwn_`s')))
@@ -160,7 +160,7 @@ foreach v in isco08 isco88 {
     }
 
     * case 1 is the unknown column and must be missing everywhere
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         qui count if cwcase==1 & !missing(cwn_`s')
         if r(N) {
             di as err "  case 1 (unknown) returned a class for `s' in " r(N) " rows"
@@ -188,31 +188,31 @@ foreach v in isco08 isco88 {
     qui crosswalk esec_native = `nativefn'(isco4num nativecase)
 
     gen byte esec_c = .
-    replace esec_c = 1 if inlist(cwn_esecmp,1,2)
-    replace esec_c = 2 if inlist(cwn_esecmp,3,4)
-    replace esec_c = 3 if cwn_esecmp==5
-    replace esec_c = 4 if cwn_esecmp==6
-    replace esec_c = 5 if cwn_esecmp==7
-    replace esec_c = 6 if cwn_esecmp==8
-    replace esec_c = 7 if cwn_esecmp==9
-    replace esec_c = 8 if cwn_esecmp==10
-    replace esec_c = 9 if cwn_esecmp==11
+    replace esec_c = 1 if inlist(cwn_macro,1,2)
+    replace esec_c = 2 if inlist(cwn_macro,3,4)
+    replace esec_c = 3 if cwn_macro==5
+    replace esec_c = 4 if cwn_macro==6
+    replace esec_c = 5 if cwn_macro==7
+    replace esec_c = 6 if cwn_macro==8
+    replace esec_c = 7 if cwn_macro==9
+    replace esec_c = 8 if cwn_macro==10
+    replace esec_c = 9 if cwn_macro==11
 
     qui count if !missing(esec_c) & !missing(esec_native)
     local comparable = r(N)
     qui count if !missing(esec_c) & !missing(esec_native) & esec_c!=esec_native
     local disagree = r(N)
-    di as txt "  D1 collapse(esecmp) vs `nativefn'(): comparable=" as res `comparable' ///
+    di as txt "  D1 collapse(macro) vs `nativefn'(): comparable=" as res `comparable' ///
         as txt "  disagree=" as res `disagree'
     if `disagree' {
         local FAIL = `FAIL' + 1
-        di as err "  `v': collapse(esecmp) no longer reproduces crosswalk's native ESeC"
-        list isco4str cwcase cwn_esecmp esec_c esec_native ///
+        di as err "  `v': collapse(macro) no longer reproduces crosswalk's native ESeC"
+        list isco4str cwcase cwn_macro esec_c esec_native ///
             if !missing(esec_c) & !missing(esec_native) & esec_c!=esec_native, ///
             clean noobs sep(0) nolabel
     }
 
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         preserve
         qui keep if !missing(cwn_`s') & !missing(esec_c)
         keep cwn_`s' esec_c
@@ -270,7 +270,7 @@ clear
 set obs 5
 gen int isco08 = 5221
 gen byte cwcase = _n + 1
-foreach s in micro meso esecmp {
+foreach s in micro meso macro {
     qui crosswalk L_`s' = mc.isco08_to_`s'(isco08 cwcase)
     local lb : value label L_`s'
     qui levelsof L_`s', local(lv)
@@ -288,7 +288,7 @@ if "`lb'"=="" {
     di as err "  no value label attached"
     local FAIL = `FAIL' + 1
 }
-list cwcase L_micro L_meso L_esecmp, clean noobs sep(0)
+list cwcase L_micro L_meso L_macro, clean noobs sep(0)
 di as txt "  (5221 = shopkeepers; the five cases must differ)"
 qui levelsof L_micro, local(lv)
 assert `:word count `lv'' == 5
@@ -319,19 +319,19 @@ replace supvis= .  in 7
 replace sempl = .  in 8
 gen int isco08 = 2411
 
-foreach s in micro meso esecmp {
+foreach s in micro meso macro {
     qui crosswalk cf_`s' = mc.isco08_to_`s'(isco08 case.mcempstat(sempl supvis))
 }
-list sempl supvis cf_micro cf_meso cf_esecmp, clean noobs sep(0) nolabel
+list sempl supvis cf_micro cf_meso cf_macro, clean noobs sep(0) nolabel
 
 di as txt "  -- sempl missing must be UNCODED, not silently column 1 --"
 assert missing(cf_micro) in 8
 assert missing(cf_meso)  in 8
-assert missing(cf_esecmp) in 8
+assert missing(cf_macro) in 8
 di as txt "  OK"
 
 * case.esec88() uses the same 1-6 numbering and must be interchangeable
-foreach s in micro meso esecmp {
+foreach s in micro meso macro {
     qui crosswalk e88_`s' = mc.isco08_to_`s'(isco08 case.esec88(sempl supvis))
     qui count if !((e88_`s'==cf_`s') | (missing(e88_`s') & missing(cf_`s')))
     di as txt "  case.esec88() vs case.mcempstat() differences (`s'): " as res r(N)

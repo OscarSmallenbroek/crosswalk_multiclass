@@ -14,8 +14,7 @@
 
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-08 codes to the
-    micro-class scheme (77 categories). This is a separate scheme, not
-    part of the Multilevel Socio-Economic Classes (MSEC).
+    Micro-class scheme (77 categories).
 
 {pstd}
     Unlike the other {cmd:mc.} tables this one is purely
@@ -33,8 +32,9 @@
 {title:Source}
 
 {pstd}
-    Crosswalk file for the 77-category micro-class scheme, documented in
-    Smallenbroek, Hertel and Barone (n.d.); see References.
+    Crosswalk file for the 77-category micro-class
+    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);
+    see References.
     {p_end}
 
 {pstd}

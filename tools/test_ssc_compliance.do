@@ -41,7 +41,7 @@ gen byte supvisx       = 0
 
 di as txt "  -- all 6 employment-relation tables --"
 foreach o in isco08 isco88com {
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         capture noisily quietly crosswalk cw_`o'_`s' = ///
             mc.`o'_to_`s'(isco08 cwcase)
         if _rc {
@@ -53,7 +53,7 @@ foreach o in isco08 isco88com {
 di as txt "  -- the 6 3-digit tables --"
 gen str3 isco3 = "241"
 foreach o in isco08 isco88 {
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         capture noisily quietly crosswalk d_`o'_`s' = ///
             mc.`o'_3_to_`s'(isco3 cwcase)
         if _rc {
@@ -94,7 +94,7 @@ qui save `off'
 set varabbrev on
 di as txt "  varabbrev restored to: " as res "`c(varabbrev)'"
 foreach o in isco08 isco88com {
-    foreach s in micro meso esecmp {
+    foreach s in micro meso macro {
         qui crosswalk on_`o'_`s' = mc.`o'_to_`s'(isco08 cwcase)
         qui count if !((on_`o'_`s'==cw_`o'_`s') | ///
             (missing(on_`o'_`s') & missing(cw_`o'_`s')))

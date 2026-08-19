@@ -1,2 +1,2 @@
 v 3
-p crosswalk_multiclass module providing crosswalk tables to translate ISCO-88com and ISCO-08 into the MultiClass class schemes
+p crosswalk_multiclass module providing crosswalk tables to translate ISCO-88com and ISCO-08 into the Multilevel Socio-Economic Classes schemes

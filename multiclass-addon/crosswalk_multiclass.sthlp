@@ -6,22 +6,23 @@
 {viewerjumpto "Examples" "crosswalk_multiclass##examples"}{...}
 {viewerjumpto "Where is ESeC?" "crosswalk_multiclass##esec"}{...}
 {viewerjumpto "References" "crosswalk_multiclass##refs"}{...}
-{hi:crosswalk_multiclass} {hline 2} Crosswalk tables for the MultiClass class schemes
+{hi:crosswalk_multiclass} {hline 2} Crosswalk tables for the Multilevel Socio-Economic Classes class schemes
 
 
 {marker description}{title:Description}
 
 {pstd}
     {cmd:crosswalk_multiclass} provides {helpb crosswalk} tables translating
-    ISCO-88com and ISCO-08 occupational codes into the class schemes of the
-    MultiClass schema:
+    ISCO-88com and ISCO-08 occupational codes into the Multilevel
+    Socio-Economic Classes (MSEC) schemes, plus a separate micro-class
+    scheme that is {bf:not} part of MSEC (see the note below the table):
 
 {p2colset 9 26 28 2}{...}
 {p2col :{it:scheme}}{it:classes}  {it:description}{p_end}
-{p2col :{cmd:micro}}30  MicroSEC{p_end}
-{p2col :{cmd:meso}}18  meso-class scheme{p_end}
-{p2col :{cmd:esecmp}}11  ESeC multi-purpose variant{p_end}
-{p2col :{cmd:microclass}}77  micro-class scheme (ISCO-08 only){p_end}
+{p2col :{cmd:micro}}30  Micro-SEC (MSEC){p_end}
+{p2col :{cmd:meso}}18  Meso-SEC (MSEC){p_end}
+{p2col :{cmd:macro}}11  Macro-SEC - ESEC plus differentiation of SC I and II (MSEC){p_end}
+{p2col :{cmd:microclass}}77  micro-class scheme (ISCO-08 only, {bf:not} MSEC){p_end}
 {p2colreset}{...}
 
 {pstd}
@@ -32,16 +33,16 @@
         {cmd:. ssc install moremata, replace}
 
 {pstd}
-    MicroSEC, the meso-class and ESeC-MP are defined jointly over occupation
+    Micro-SEC, Meso-SEC and Macro-SEC are defined jointly over occupation
     {it:and} employment relation, so those tables take a
     {help crosswalk##case:case} argument; see
     {help crosswalk_multiclass##case:Employment status} below. The 77-category
     micro-class scheme is purely occupational and takes no case.
 
 {pstd}
-    {bf:Two different "micro" schemes.} {cmd:micro} (MicroSEC, 30 classes) is
+    {bf:Two different "micro" schemes.} {cmd:micro} (Micro-SEC, 30 classes) is
     assigned jointly with employment relation and sits in the same hierarchy as
-    {cmd:meso} and {cmd:esecmp}. {cmd:microclass} (77 categories, ISCO-08 only)
+    {cmd:meso} and {cmd:macro}. {cmd:microclass} (77 categories, ISCO-08 only)
     is a separate, purely occupational schema. They are not the same thing and
     confusing them will give the wrong answer.
 
@@ -56,12 +57,12 @@
     4-digit ISCO:
 
 {p2colset 9 46 48 2}{...}
-{p2col :{helpb _cwfcn_mc_isco88com_to_micro:mc.isco88com_to_micro()}}ISCO-88com to MicroSEC{p_end}
-{p2col :{helpb _cwfcn_mc_isco88com_to_meso:mc.isco88com_to_meso()}}ISCO-88com to meso-class{p_end}
-{p2col :{helpb _cwfcn_mc_isco88com_to_esecmp:mc.isco88com_to_esecmp()}}ISCO-88com to ESeC-MP{p_end}
-{p2col :{helpb _cwfcn_mc_isco08_to_micro:mc.isco08_to_micro()}}ISCO-08 to MicroSEC{p_end}
-{p2col :{helpb _cwfcn_mc_isco08_to_meso:mc.isco08_to_meso()}}ISCO-08 to meso-class{p_end}
-{p2col :{helpb _cwfcn_mc_isco08_to_esecmp:mc.isco08_to_esecmp()}}ISCO-08 to ESeC-MP{p_end}
+{p2col :{helpb _cwfcn_mc_isco88com_to_micro:mc.isco88com_to_micro()}}ISCO-88com to Micro-SEC{p_end}
+{p2col :{helpb _cwfcn_mc_isco88com_to_meso:mc.isco88com_to_meso()}}ISCO-88com to Meso-SEC{p_end}
+{p2col :{helpb _cwfcn_mc_isco88com_to_macro:mc.isco88com_to_macro()}}ISCO-88com to Macro-SEC{p_end}
+{p2col :{helpb _cwfcn_mc_isco08_to_micro:mc.isco08_to_micro()}}ISCO-08 to Micro-SEC{p_end}
+{p2col :{helpb _cwfcn_mc_isco08_to_meso:mc.isco08_to_meso()}}ISCO-08 to Meso-SEC{p_end}
+{p2col :{helpb _cwfcn_mc_isco08_to_macro:mc.isco08_to_macro()}}ISCO-08 to Macro-SEC{p_end}
 {p2col :{helpb _cwfcn_mc_isco08_to_microclass:mc.isco08_to_microclass()}}ISCO-08 to micro-class (no case){p_end}
 {p2colreset}{...}
 
@@ -69,8 +70,8 @@
     3-digit ISCO minor groups, usable directly:
 
 {p2colset 9 46 48 2}{...}
-{p2col :{helpb _cwfcn_mc_isco88_3_to_micro:mc.isco88_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_esecmp()}{p_end}
-{p2col :{helpb _cwfcn_mc_isco08_3_to_micro:mc.isco08_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_esecmp()}{p_end}
+{p2col :{helpb _cwfcn_mc_isco88_3_to_micro:mc.isco88_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
+{p2col :{helpb _cwfcn_mc_isco08_3_to_micro:mc.isco08_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
 {p2colreset}{...}
 
 {pstd}
@@ -102,7 +103,7 @@
     gives identical results.
 
 {pstd}
-    {bf:Column 1 is} {cmd:.} {bf:in every table.} MultiClass has no simplified
+    {bf:Column 1 is} {cmd:.} {bf:in every table.} Multilevel Socio-Economic Classes has no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than silently picking up
     another class.
@@ -113,11 +114,11 @@
 {pstd}From a self-employment indicator and a supervisory variable:{p_end}
 {phang2}{cmd:. crosswalk micro = mc.isco08_to_micro(isco08 case.mcempstat(selfemp nsuperv))}{p_end}
 
-{pstd}ISCO-88com to ESeC-MP:{p_end}
-{phang2}{cmd:. crosswalk esecmp = mc.isco88com_to_esecmp(isco88 case.mcempstat(selfemp nsuperv))}{p_end}
+{pstd}ISCO-88com to Macro-SEC:{p_end}
+{phang2}{cmd:. crosswalk macro = mc.isco88com_to_macro(isco88 case.mcempstat(selfemp nsuperv))}{p_end}
 
 {pstd}All three employment-relation schemes at once:{p_end}
-{phang2}{cmd:. foreach s in micro meso esecmp {c -(}}{p_end}
+{phang2}{cmd:. foreach s in micro meso macro {c -(}}{p_end}
 {phang2}{cmd:.     crosswalk `s' = mc.isco08_to_`s'(isco08 case.mcempstat(selfemp nsuperv))}{p_end}
 {phang2}{cmd:. {c )-}}{p_end}
 
@@ -148,7 +149,7 @@
     wrong columns.
 
 {pstd}
-    {cmd:mc.}{it:origin}{cmd:_to_esecmp()} aggregates to the same ESeC classes
+    {cmd:mc.}{it:origin}{cmd:_to_macro()} aggregates to the same ESeC classes
     with the rule {c -(}1,2{c )-}->1, {c -(}3,4{c )-}->2, 5->3, 6->4, 7->5,
     8->6, 9->7, 10->8, 11->9, and reproduces those tables exactly.
 
@@ -156,15 +157,15 @@
 {marker refs}{title:References}
 
 {pstd}
-    Smallenbroek, Hertel and Barone (2022) introduced ESeC-MP. Hertel, Barone
-    and Smallenbroek (2025) assessed ESeC-MP and MicroSEC alongside other class
+    Smallenbroek, Hertel and Barone (2022) introduced Macro-SEC. Hertel, Barone
+    and Smallenbroek (2025) assessed Macro-SEC and Micro-SEC alongside other class
     schemes.
 
 {pstd}
-    Note that the MicroSEC assessed in Hertel et al. (2025) is an earlier
+    Note that the Micro-SEC assessed in Hertel et al. (2025) is an earlier
     prototype, whose development is documented at
     {browse "https://osf.io/preprints/socarxiv/962q3_v1"}. It is {it:not} the
-    version of MicroSEC shipped here. The paper documenting the version
+    version of Micro-SEC shipped here. The paper documenting the version
     implemented in this package is under review.
 
 {pstd}

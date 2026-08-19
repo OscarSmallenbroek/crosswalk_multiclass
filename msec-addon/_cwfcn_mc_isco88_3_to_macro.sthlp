@@ -1,10 +1,10 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:mc_isco88_3_to_esecmp()} {hline 2} Translate 3-digit ISCO-88(com) to ESeC-MP
+{hi:mc_isco88_3_to_macro()} {hline 2} Translate 3-digit ISCO-88(com) to Macro-SEC
 
 {title:Syntax}
 
-        {cmd:mc.isco88_3_to_esecmp(}{it:varname} {it:case}{cmd:)}
+        {cmd:mc.isco88_3_to_macro(}{it:varname} {it:case}{cmd:)}
 
 {pstd}
     where {it:varname} contains 3-digit ISCO-88(com) minor group codes
@@ -13,13 +13,13 @@
 {pstd}
     Typical usage:
 
-        {cmd:mc.isco88_3_to_esecmp(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
+        {cmd:mc.isco88_3_to_macro(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
 
 {title:Description}
 
 {pstd}
     {helpb crosswalk} table translating 3-digit ISCO-88(com) minor
-    groups to the ESeC multi-purpose variant (11 classes). The table also
+    groups to the Macro-SEC - ESEC plus differentiation of SC I and II (11 classes). The table also
     carries rows for sub-major (2-digit) and major (1-digit)
     groups, written as 3-digit codes padded with zeros on the
     right, so that partially coded observations still match.
@@ -36,7 +36,7 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
@@ -47,8 +47,9 @@
 {title:Source}
 
 {pstd}
-    MultiClass crosswalk files for ESeC-MP, introduced in
-    Smallenbroek, Hertel and Barone (2022); see References.
+    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC,
+    introduced in Smallenbroek, Hertel and Barone (2022); see
+    References.
     {p_end}
 
 {pstd}
@@ -69,7 +70,7 @@
     {helpb _cwcasefcn_mcempstat:case.mcempstat()}).
 
 {pstd}
-    Class labels: {helpb _cwfcn_labels_mc_esecmp:labels_mc_esecmp()}
+    Class labels: {helpb _cwfcn_labels_mc_macro:labels_mc_macro()}
     {p_end}
 
 {title:References}

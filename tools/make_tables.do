@@ -29,11 +29,11 @@ keep microSEC_int emp_stat esec08_MP
 keep if !missing(microSEC_int) & !missing(esec08_MP)
 duplicates drop
 rename microSEC_int micro
-rename esec08_MP esecmp_m
+rename esec08_MP macro_m
 isid micro emp_stat
 tempfile mpmap
 save `mpmap'
-di as txt "(micro,empstat)->esecmp map rows: " _N
+di as txt "(micro,empstat)->macro map rows: " _N
 
 *==============================================================
 * helpers
@@ -118,7 +118,7 @@ capture program drop resolve3
 program define resolve3
     syntax , KEYvar(name) Version(string) Outfile(string)
     preserve
-    keep `keyvar' emp_stat micro meso esec esecmp
+    keep `keyvar' emp_stat micro meso esec macro
     rename `keyvar' kk
     tempfile tab
     qui save `tab'
@@ -164,7 +164,7 @@ program define resolve3
     replace kk = k                if has1
     qui merge m:1 kk emp_stat using `tab', keep(master match) nogen
 
-    foreach s in micro meso esec esecmp {
+    foreach s in micro meso esec macro {
         rename `s' mc_`s'
     }
     qui count if has1
@@ -176,14 +176,14 @@ program define resolve3
     qui count if !has1 & !has2 & !has3
     di as txt "  `version': rows with no key at any level  : " r(N)
 
-    keep code3 emp_stat mc_micro mc_meso mc_esec mc_esecmp
-    order code3 emp_stat mc_micro mc_meso mc_esec mc_esecmp
+    keep code3 emp_stat mc_micro mc_meso mc_esec mc_macro
+    order code3 emp_stat mc_micro mc_meso mc_esec mc_macro
     sort code3 emp_stat
     export delimited using "`outfile'", replace nolabel datafmt
     restore
 end
 
-* collapse esecmp (11) into esec (9)
+* collapse macro (11) into esec (9)
 capture program drop mkesec
 program define mkesec
     syntax , Gen(name) From(name)
@@ -206,17 +206,17 @@ use "D:/work/multiclass-package/crosswalks/isco08-to-meso.dta", clear
 keep ISCO08 emp_stat microSEC_int esec08_MP mesoSEC
 rename microSEC_int micro
 rename mesoSEC meso
-rename esec08_MP esecmp
+rename esec08_MP macro
 label drop _all
 
 merge m:1 micro using `mesomap', keep(1 3) nogen
 replace meso = meso_m if missing(meso) & !missing(meso_m)
 drop meso_m
 merge m:1 micro emp_stat using `mpmap', keep(1 3) nogen
-replace esecmp = esecmp_m if missing(esecmp) & !missing(esecmp_m)
-drop esecmp_m
+replace macro = macro_m if missing(macro) & !missing(macro_m)
+drop macro_m
 
-mkesec, gen(esec) from(esecmp)
+mkesec, gen(esec) from(macro)
 
 * Put ISCO-08 keys on the same 4-digit right-padded convention as the
 * ISCO-88com tables (111 -> 1110, 11 -> 0110), so every shipped table uses one
@@ -227,21 +227,21 @@ di as txt "==== ISCO08: N rows (want 910), unique keys (want 182) ===="
 count
 codebook isco4, compact
 di as txt "==== ISCO08 coverage ===="
-foreach v in micro meso esec esecmp {
+foreach v in micro meso esec macro {
     qui count if !missing(`v')
     di as txt "  `v': " r(N)
 }
 isid isco4 emp_stat
 
-di as txt "==== ISCO08 nesting: micro / meso / esecmp must each determine esec ===="
+di as txt "==== ISCO08 nesting: micro / meso / macro must each determine esec ===="
 nestcheck, level(micro)  tag(isco08)
 nestcheck, level(meso)   tag(isco08)
-nestcheck, level(esecmp) tag(isco08)
+nestcheck, level(macro) tag(isco08)
 
 wrblock, keyvar(isco4) scheme(micro)  outfile("$OUT/d_isco08_to_micro.txt")
 wrblock, keyvar(isco4) scheme(meso)   outfile("$OUT/d_isco08_to_meso.txt")
 wrblock, keyvar(isco4) scheme(esec)   outfile("$OUT/d_isco08_to_esec.txt")
-wrblock, keyvar(isco4) scheme(esecmp) outfile("$OUT/d_isco08_to_esecmp.txt")
+wrblock, keyvar(isco4) scheme(macro) outfile("$OUT/d_isco08_to_macro.txt")
 
 di as txt "==== ISCO08: resolving 3-digit codes for the add-on ===="
 resolve3, keyvar(isco4) version(isco08) outfile("$OUT/addon3_isco08.csv")
@@ -260,7 +260,7 @@ label drop _all
 * aggregate to their own native ESeC class, which breaks the nesting of
 * the schema. In both cases the cell is also out of step with the other
 * employment statuses of the same ISCO code. Reassigned so that
-* micro -> meso -> ESeC and micro -> ESeC-MP -> ESeC both hold:
+* micro -> meso -> ESeC and micro -> Macro-SEC -> ESeC both hold:
 *
 *   2400 self-employed : Cultural associate professionals (42)
 *                        -> Business operation professionals (20)
@@ -284,13 +284,13 @@ replace micro = 80 if isco88com==7300 & emp_stat==5
 merge m:1 micro using `mesomap', keep(1 3) nogen
 rename meso_m meso
 merge m:1 micro emp_stat using `mpmap', keep(1 3) nogen
-rename esecmp_m esecmp
+rename macro_m macro
 
 di as txt "==== ISCO88com: N rows (want 730), unique keys (want 146) ===="
 count
 codebook isco88com, compact
 di as txt "==== ISCO88com coverage ===="
-foreach v in micro meso esec esecmp {
+foreach v in micro meso esec macro {
     qui count if !missing(`v')
     di as txt "  `v': " r(N)
 }
@@ -299,14 +299,14 @@ isid isco88com emp_stat
 di as txt "==== ISCO88com nesting ===="
 nestcheck, level(micro)  tag(isco88com)
 nestcheck, level(meso)   tag(isco88com)
-nestcheck, level(esecmp) tag(isco88com)
+nestcheck, level(macro) tag(isco88com)
 
-di as txt "==== ISCO88com: collapse(esecmp) must reproduce native esec88 ===="
-mkesec, gen(esec_c) from(esecmp)
+di as txt "==== ISCO88com: collapse(macro) must reproduce native esec88 ===="
+mkesec, gen(esec_c) from(macro)
 qui count if !missing(esec_c) & !missing(esec) & esec_c!=esec
 di as txt "  disagreements: " as res r(N)
 if r(N) {
-    list isco88com emp_stat micro esecmp esec_c esec ///
+    list isco88com emp_stat micro macro esec_c esec ///
         if !missing(esec_c) & !missing(esec) & esec_c!=esec, clean noobs sep(0)
 }
 assert esec_c==esec if !missing(esec_c) & !missing(esec)
@@ -315,7 +315,7 @@ drop esec_c
 wrblock, keyvar(isco88com) scheme(micro)  outfile("$OUT/d_isco88com_to_micro.txt")
 wrblock, keyvar(isco88com) scheme(meso)   outfile("$OUT/d_isco88com_to_meso.txt")
 wrblock, keyvar(isco88com) scheme(esec)   outfile("$OUT/d_isco88com_to_esec.txt")
-wrblock, keyvar(isco88com) scheme(esecmp) outfile("$OUT/d_isco88com_to_esecmp.txt")
+wrblock, keyvar(isco88com) scheme(macro) outfile("$OUT/d_isco88com_to_macro.txt")
 
 di as txt "==== ISCO88com: resolving 3-digit codes for the add-on ===="
 resolve3, keyvar(isco88com) version(isco88) outfile("$OUT/addon3_isco88.csv")

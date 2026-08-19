@@ -1,6 +1,6 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:mc_isco88com_to_micro()} {hline 2} Translate 4-digit ISCO-88(com) to micro-class
+{hi:mc_isco88com_to_micro()} {hline 2} Translate 4-digit ISCO-88(com) to Micro-SEC
 
 {title:Syntax}
 
@@ -23,7 +23,7 @@
 
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-88(com) codes to
-    the MultiClass micro-class scheme (30 classes). Note that the MultiClass
+    Micro-SEC (30 classes). Note that the Multilevel Socio-Economic Classes
     schemes are defined at the level of minor ISCO groups
     (3 digit); that is, all unit groups within a minor group
     translate into the same class.
@@ -40,14 +40,14 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the MultiClass schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
 {title:Source}
 
 {pstd}
-    MultiClass crosswalk files for MicroSEC, the 30-class scheme
+    Multilevel Socio-Economic Classes crosswalk files for Micro-SEC, the 30-class scheme
     assessed in Hertel, Barone and Smallenbroek (2025); see
     References.
     {p_end}

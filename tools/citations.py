@@ -56,18 +56,18 @@ REF_GRUSKY_2000 = """{phang}
     Class Analysis. Political Power and Social Theory 14:291-305.
     {p_end}"""
 
-# Which paper covers what. The MicroSEC caveat matters: the version assessed in
+# Which paper covers what. The Micro-SEC caveat matters: the version assessed in
 # Hertel et al. (2025) is an earlier prototype, not what this package ships.
 PROVENANCE_NOTE = """{pstd}
-    Smallenbroek, Hertel and Barone (2022) introduced ESeC-MP. Hertel, Barone
-    and Smallenbroek (2025) assessed ESeC-MP and MicroSEC alongside other class
+    Smallenbroek, Hertel and Barone (2022) introduced Macro-SEC. Hertel, Barone
+    and Smallenbroek (2025) assessed Macro-SEC and Micro-SEC alongside other class
     schemes.
 
 {pstd}
-    Note that the MicroSEC assessed in Hertel et al. (2025) is an earlier
+    Note that the Micro-SEC assessed in Hertel et al. (2025) is an earlier
     prototype, whose development is documented at
     {browse "https://osf.io/preprints/socarxiv/962q3_v1"}. It is {it:not} the
-    version of MicroSEC shipped here. The paper documenting the version
+    version of Micro-SEC shipped here. The paper documenting the version
     implemented in this package is under review."""
 
 MICROCLASS_NOTE = """{pstd}
@@ -76,10 +76,10 @@ MICROCLASS_NOTE = """{pstd}
     Grusky, Weeden and Sorensen (2000) and Weeden and Grusky (2005) and
     emulating the categories of Jonsson et al. (2009). It is documented in
     Smallenbroek, Hertel and Barone (n.d.). It is not the same thing as the
-    30-class MicroSEC scheme, which this package calls {cmd:micro}."""
+    30-class Micro-SEC scheme, which this package calls {cmd:micro}."""
 
 # ISCO-88 vs ISCO-88(COM): the source data behind every isco88com-origin table
-# in this package (micro, meso, esec, esecmp) is keyed on ISCO-88(COM), the EU
+# in this package (micro, meso, esec, macro) is keyed on ISCO-88(COM), the EU
 # variant, not raw ISCO-88. crosswalk documents the same caveat for its own
 # isco88_to_esec() in the Source section of _cwfcn_isco88_3_to_esec.sthlp;
 # these two notes follow that wording so both packages read consistently.
@@ -98,7 +98,7 @@ ISCO88COM_NOTE_STANDALONE = """{pstd}
     for instance using {cmd:isco88_to_isco88com()} from the
     {browse "https://github.com/benjann/crosswalk":crosswalk} package."""
 
-# Pointer for the Source section of the esecmp tables. crosswalk already
+# Pointer for the Source section of the macro tables. crosswalk already
 # provides isco88_to_esec() and isco08_to_esec(), so this package does not
 # duplicate them; note the case functions differ from the ones used here. The
 # full explanation lives in the master help file, crosswalk_multiclass.sthlp.

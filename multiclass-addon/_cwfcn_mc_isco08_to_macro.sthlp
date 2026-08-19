@@ -1,10 +1,10 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:mc_isco08_to_micro()} {hline 2} Translate 4-digit ISCO-08 to Micro-SEC
+{hi:mc_isco08_to_macro()} {hline 2} Translate 4-digit ISCO-08 to Macro-SEC
 
 {title:Syntax}
 
-        {cmd:mc.isco08_to_micro(}{it:varname} {it:case}{cmd:)}
+        {cmd:mc.isco08_to_macro(}{it:varname} {it:case}{cmd:)}
 
 {pstd}
     where {it:varname} contains 4-digit ISCO-08 codes
@@ -13,7 +13,7 @@
 {pstd}
     Typical usage:
 
-        {cmd:mc.isco08_to_micro(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
+        {cmd:mc.isco08_to_macro(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
 
 {pstd}
     with {it:sempl} and {it:supvis} as described in
@@ -23,7 +23,7 @@
 
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-08 codes to
-    Micro-SEC (30 classes). Note that the Multilevel Socio-Economic Classes
+    the Macro-SEC - ESEC plus differentiation of SC I and II (11 classes). Note that the Multilevel Socio-Economic Classes
     schemes are defined at the level of minor ISCO groups
     (3 digit); that is, all unit groups within a minor group
     translate into the same class.
@@ -47,19 +47,28 @@
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for Micro-SEC, the 30-class scheme
-    assessed in Hertel, Barone and Smallenbroek (2025); see
-    References.
+    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC, introduced in
+    Smallenbroek, Hertel and Barone (2022); see References.
     {p_end}
 
 {pstd}
-    {cmd:mc_isco08_to_micro()} is implemented as a wrapper for
+    {cmd:mc_isco08_to_macro()} is implemented as a wrapper for
     {helpb _cwfcn_isco08_to_isco08_3:isco08_to_isco08_3()} followed by
-    {helpb _cwfcn_mc_isco08_3_to_micro:mc_isco08_3_to_micro()}.
+    {helpb _cwfcn_mc_isco08_3_to_macro:mc_isco08_3_to_macro()}.
     {p_end}
 
 {pstd}
-    Class labels: {helpb _cwfcn_labels_mc_micro:labels_mc_micro()}
+    For plain 9-class ESeC, use {helpb crosswalk}'s own
+    {helpb _cwfcn_isco88_to_esec:isco88_to_esec()} /
+    {helpb _cwfcn_isco08_to_esec:isco08_to_esec()} rather than a table from
+    this package; see {help crosswalk_multiclass##esec:crosswalk_multiclass}
+    for why, and note that they take a different case function
+    ({helpb _cwcasefcn_esec88:case.esec88()} /
+    {helpb _cwcasefcn_esec:case.esec()}, not
+    {helpb _cwcasefcn_mcempstat:case.mcempstat()}).
+
+{pstd}
+    Class labels: {helpb _cwfcn_labels_mc_macro:labels_mc_macro()}
     {p_end}
 
 {title:References}
@@ -93,4 +102,4 @@
 {hline}
 {asis}
 .isco08_to_isco08_3
-.mc_isco08_3_to_micro
+.mc_isco08_3_to_macro

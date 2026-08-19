@@ -1,19 +1,19 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:mc_isco08_to_micro()} {hline 2} Translate 4-digit ISCO-08 to Micro-SEC
+{hi:mc_isco88com_to_meso()} {hline 2} Translate 4-digit ISCO-88(com) to Meso-SEC
 
 {title:Syntax}
 
-        {cmd:mc.isco08_to_micro(}{it:varname} {it:case}{cmd:)}
+        {cmd:mc.isco88com_to_meso(}{it:varname} {it:case}{cmd:)}
 
 {pstd}
-    where {it:varname} contains 4-digit ISCO-08 codes
+    where {it:varname} contains 4-digit ISCO-88(com) codes
     and {it:case} selects the employment status column.
 
 {pstd}
     Typical usage:
 
-        {cmd:mc.isco08_to_micro(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
+        {cmd:mc.isco88com_to_meso(}{it:varname} {cmd:case.mcempstat(}{it:sempl} {it:supvis}{cmd:)}{cmd:)}
 
 {pstd}
     with {it:sempl} and {it:supvis} as described in
@@ -22,9 +22,9 @@
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} table translating 4-digit ISCO-08 codes to
-    Micro-SEC (30 classes). Note that the Multilevel Socio-Economic Classes
-    schemes are defined at the level of minor ISCO groups
+    {helpb crosswalk} table translating 4-digit ISCO-88(com) codes to
+    the Multilevel Socio-Economic Classes: Meso-SEC (18 classes). Note that the Multilevel Socio-Economic Classes
+    are defined at the level of minor ISCO groups
     (3 digit); that is, all unit groups within a minor group
     translate into the same class.
 
@@ -40,26 +40,33 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for Micro-SEC, the 30-class scheme
-    assessed in Hertel, Barone and Smallenbroek (2025); see
-    References.
+    Multilevel Socio-Economic Classes crosswalk files for Meso-SEC,
+    the 18-class scheme assessed in Hertel, Barone and Smallenbroek
+    (2025); see References.
     {p_end}
 
 {pstd}
-    {cmd:mc_isco08_to_micro()} is implemented as a wrapper for
-    {helpb _cwfcn_isco08_to_isco08_3:isco08_to_isco08_3()} followed by
-    {helpb _cwfcn_mc_isco08_3_to_micro:mc_isco08_3_to_micro()}.
+    {cmd:mc_isco88com_to_meso()} is implemented as a wrapper for
+    {helpb _cwfcn_isco88_to_isco88_3:isco88_to_isco88_3()} followed by
+    {helpb _cwfcn_mc_isco88_3_to_meso:mc_isco88_3_to_meso()}.
     {p_end}
 
 {pstd}
-    Class labels: {helpb _cwfcn_labels_mc_micro:labels_mc_micro()}
+    Note that this table is based on
+    {browse "https://warwick.ac.uk/fac/soc/ier/research/classification/isco88":ISCO-88(COM)},
+    the European Union variant of the ISCO-88. If your data contains ISCO-88
+    codes you might first want to translate these codes to ISCO-88(COM) using
+    {helpb _cwfcn_isco88_to_isco88com:isco88_to_isco88com()}.
+
+{pstd}
+    Class labels: {helpb _cwfcn_labels_mc_meso:labels_mc_meso()}
     {p_end}
 
 {title:References}
@@ -92,5 +99,5 @@
 
 {hline}
 {asis}
-.isco08_to_isco08_3
-.mc_isco08_3_to_micro
+.isco88_to_isco88_3
+.mc_isco88_3_to_meso

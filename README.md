@@ -1,17 +1,17 @@
 # crosswalk_multiclass
 
 Stata crosswalk tables translating **ISCO-88com** and **ISCO-08** occupational
-codes into the class schemes of the **MultiClass** schema. This is a nested set of schemas
+codes into the class schemes of the **Multilevel Socio-Economic Class** (MSEC) schema. This is a nested set of schemas
 with a micro, meso and macro implementation which are modular and reduce to the well known ESEC schema (Harrison and Rose, 2006)
-All Multiclass crosswalks are implemented for 3-digit ISCO codes. 
+All MSEC crosswalks are implemented at the level of minor ISCO groups (3 digit). 
 
 | scheme | classes | destination | available for |
 |---|---|---|---|
-| MicroSEC | 30 | `micro` | ISCO-88com, ISCO-08 |
-| meso-class | 18 | `meso` | ISCO-88com, ISCO-08 |
-| ESeC-MP | 11 | `esecmp` | ISCO-88com, ISCO-08 |
+| Micro-SEC | 30 | `micro` | ISCO-88com, ISCO-08 |
+| Meso-SEC | 18 | `meso` | ISCO-88com, ISCO-08 |
+| Macro-SEC | 11 | `macro` | ISCO-88com, ISCO-08 |
 
-The add-on also provides a translation from ISCO-08 to **microclass** as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the Multiclass schema. 
+The add-on also provides a translation from ISCO-08 to **microclass** as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the MSEC. 
 
 This is an **add-on for the [`crosswalk`](https://github.com/benjann/crosswalk)
 package** by Ben Jann. Like
@@ -50,14 +50,14 @@ help crosswalk_multiclass
 The tables use crosswalk's **prefix syntax** — `mc.`*origin*`_to_`*scheme*`()`.
 The `mc.` prefix is what makes crosswalk pick up this package's class labels.
 
-MicroSEC, MesoSEC and ESeC-MP are defined jointly over occupation and
+Micro-SEC, Meso-SEC and Macro-SEC are defined jointly over occupation and
 employment relation, so they take a `case` argument built by
 `case.mcempstat()` from a self-employment indicator and a supervisory or
 employee-count variable:
 
 ```stata
 crosswalk micro  = mc.isco08_to_micro(isco08 case.mcempstat(selfemp nsuperv))
-crosswalk esecmp = mc.isco88com_to_esecmp(isco88 case.mcempstat(selfemp nsuperv))
+crosswalk macro = mc.isco88com_to_macro(isco88 case.mcempstat(selfemp nsuperv))
 ```
 
 3-digit data works directly, without the 4-digit wrapper:
@@ -88,7 +88,7 @@ The case follows the same convention as the ESeC tables that ship with
 | 6 | self-employed, 10 or more employees |
 
 
-Unlike ESEC, **Column 1 is missing in every table.** MultiClass has no simplified variant for
+Unlike ESEC, **Column 1 is missing in every table.** The Multilevel Socio-Economic Classes schemes have no simplified variant for
 unknown employment status, so observations whose employment status is unknown
 come back uncoded rather than silently picking up another class.
 
@@ -100,18 +100,18 @@ use those:
 ```stata
 crosswalk esec = isco08_to_esec(isco08 case.esec(selfemp nsuperv))
 ```
-`mc.<origin>_to_esecmp()` aggregates to the same ESeC classes with the rule
+`mc.<origin>_to_macro()` aggregates to the same ESeC classes with the rule
 {1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7, 10→8, 11→9, and reproduces
 crosswalk's own ESeC tables exactly.
 
 ## Sources
 
-**ESeC-MP** was introduced in Smallenbroek, Hertel and Barone, (2022). 
+**Macro-SEC** was introduced in Smallenbroek, Hertel and Barone, (2022). 
 
-**ESeC-MP and MicroSEC** were assessed alongside other class schemes in Hertel, Barone, and Smallenbroek (2025).
-Note that the MicroSEC assessed in Hertel et al. (2025) is an **earlier
+**Macro-SEC and Micro-SEC** were assessed alongside other class schemes in Hertel, Barone and Smallenbroek (2025).
+Note that the Micro-SEC assessed in Hertel et al. (2025) is an **earlier
 prototype**, whose development is documented at in Smallenbroek, Hertel and Barone (2023).
-It is *not* the version of MicroSEC shipped here. The paper documenting the
+It is *not* the version of Micro-SEC shipped here. The paper documenting the
 version implemented in this package is under review.
 
 **The 77-category micro-class scheme** is documented in Smallenbroek, Hertel and Barone (2026).

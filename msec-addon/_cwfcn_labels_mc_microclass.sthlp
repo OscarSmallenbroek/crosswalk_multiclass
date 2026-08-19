@@ -6,14 +6,13 @@
 
 {pstd}
     {helpb crosswalk} label set for the micro-class scheme (77 categories).
-    This is a separate scheme, not part of the Multilevel Socio-Economic
-    Classes (MSEC). Picked up automatically by the
-    {cmd:mc.}{it:origin}{cmd:_to_microclass()} tables when the prefix syntax
-    {cmd:mc.} is used.
+    Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_microclass()}
+    tables when the prefix syntax {cmd:mc.} is used.
     {p_end}
 
 {pstd}
-    Taken from the value labels carried by the source crosswalk file.
+    Taken from the value labels carried by the source
+    crosswalk files.
     {p_end}
 {hline}
 {asis}

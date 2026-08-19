@@ -24,33 +24,34 @@ OUT = "dist"
 EXCLUDE = {"crosswalk_multiclass.pkg", "stata.toc", "README.md"}
 
 TITLE = ("crosswalk_multiclass: Crosswalk tables to translate ISCO-88com and "
-         "ISCO-08 into the MultiClass class schemes")
+         "ISCO-08 into the Multilevel Socio-Economic Classes schemes")
 
 ABSTRACT = """\
 crosswalk_multiclass is an add-on for the crosswalk package (Ben Jann). It
 provides crosswalk tables translating ISCO-88com and ISCO-08 occupational codes
-into class schemes of the MultiClass schema: MicroSEC (30 classes), the
-meso-class scheme (18 classes), the ESeC multi-purpose variant ESeC-MP (11
-classes), and, for ISCO-08, a 77-category micro-class scheme. MicroSEC,
-meso-class and ESeC-MP are defined jointly over occupation and employment
-relation, so those tables carry one destination column per employment status;
-two case functions are supplied to build that argument, either from a
-self-employment indicator and a supervisory/employee-count variable, or from a
-status variable already coded 1-5. The micro-class scheme is purely
-occupational and takes no case argument. Tables are provided for 4-digit ISCO
-codes and, directly, for 3-digit ISCO minor groups. The schemes nest:
-MicroSEC, the meso-class and ESeC-MP each aggregate to the European
-Socio-economic Classification (ESeC). This package does not duplicate plain
-ESeC itself, since crosswalk already provides isco88_to_esec() and
-isco08_to_esec(); see help crosswalk_multiclass for details and the correct
-case functions to use with them. The package contains no ado-file and defines
-no command of its own; all recoding is carried out by crosswalk.\
+into the Multilevel Socio-Economic Classes (MSEC) schemes -- Micro-SEC (30
+classes), Meso-SEC (18 classes), and Macro-SEC (11 classes, ESEC plus
+differentiation of SC I and II) -- plus, for ISCO-08 only, a separate
+77-category micro-class scheme that is not part of MSEC. Micro-SEC, Meso-SEC
+and Macro-SEC are defined jointly over occupation and employment relation, so
+those tables carry one destination column per employment status; two case
+functions are supplied to build that argument, either from a self-employment
+indicator and a supervisory/employee-count variable, or from a status variable
+already coded 1-5. The micro-class scheme is purely occupational and takes no
+case argument. Tables are provided for 4-digit ISCO codes and, directly, for
+3-digit ISCO minor groups. The MSEC schemes nest: Micro-SEC, Meso-SEC and
+Macro-SEC each aggregate to the European Socio-economic Classification (ESeC).
+This package does not duplicate plain ESeC itself, since crosswalk already
+provides isco88_to_esec() and isco08_to_esec(); see help crosswalk_multiclass
+for details and the correct case functions to use with them. The package
+contains no ado-file and defines no command of its own; all recoding is
+carried out by crosswalk.\
 """
 
 REQUIRES = ["crosswalk (Ben Jann, SSC)", "moremata 2.0.0 or newer (Ben Jann, SSC)"]
 
-KEYWORDS = ["ISCO", "occupation", "social class", "ESeC", "MicroSEC",
-            "micro-class", "meso-class", "class scheme", "crosswalk", "recode"]
+KEYWORDS = ["ISCO", "occupation", "social class", "ESeC", "Macro-SEC",
+            "micro-class", "Meso-SEC", "Micro-SEC", "MSEC", "class scheme", "crosswalk", "recode"]
 
 
 def main():

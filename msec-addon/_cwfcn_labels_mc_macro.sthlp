@@ -1,17 +1,17 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:labels_mc_esecmp()} {hline 2} ESeC-MP class labels (English)
+{hi:labels_mc_macro()} {hline 2} Macro-SEC class labels (English)
 
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} label set for the ESeC multi-purpose variant (11 classes).
-    Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_esecmp()}
+    {helpb crosswalk} label set for the Macro-SEC - ESEC plus differentiation of SC I and II (11 classes).
+    Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_macro()}
     tables when the prefix syntax {cmd:mc.} is used.
     {p_end}
 
 {pstd}
-    Taken from the value labels carried by the MultiClass source
+    Taken from the value labels carried by the source
     crosswalk files.
     {p_end}
 {hline}

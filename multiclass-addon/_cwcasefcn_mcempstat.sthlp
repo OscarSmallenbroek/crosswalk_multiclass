@@ -1,6 +1,6 @@
 {smcl}
 {* version 1.0.1  18aug2026}{...}
-{hi:case.mcempstat()} {hline 2} MultiClass employment status case function
+{hi:case.mcempstat()} {hline 2} Multilevel Socio-Economic Classes employment status case function
 
 {title:Syntax}
 
@@ -13,7 +13,7 @@
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} case function for use with the MultiClass translation
+    {helpb crosswalk} case function for use with the Multilevel Socio-Economic Classes translation
     tables. The function distinguishes the following cases:
 
         1 = employment status unknown ({it:sempl} is missing)
@@ -41,14 +41,14 @@
     collapses the self-employed into case 4 and employees into case 2.
 
 {pstd}
-    Unlike ESeC, the MultiClass schemes have no simplified variant for unknown
+    Unlike ESeC, the Multilevel Socio-Economic Classes schemes have no simplified variant for unknown
     employment status: column 1 of every {cmd:mc.} table is {cmd:.}, so
     observations with missing {it:sempl} come back uncoded.
 
 {title:Examples}
 
 {phang2}{cmd:. crosswalk micro = mc.isco08_to_micro(isco08 case.mcempstat(selfemp nsuperv))}{p_end}
-{phang2}{cmd:. crosswalk esecmp = mc.isco88com_to_esecmp(isco88 case.mcempstat(selfemp nsuperv))}{p_end}
+{phang2}{cmd:. crosswalk macro = mc.isco88com_to_macro(isco88 case.mcempstat(selfemp nsuperv))}{p_end}
 
 {title:References}
 
