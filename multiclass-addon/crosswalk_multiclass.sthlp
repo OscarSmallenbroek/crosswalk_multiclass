@@ -21,14 +21,14 @@
 {p2col :{it:scheme}}{it:classes}  {it:description}{p_end}
 {p2col :{cmd:micro}}30  Micro-SEC{p_end}
 {p2col :{cmd:meso}}18  Meso-SEC{p_end}
-{p2col :{cmd:macro}}11  Macro-SEC - ESEC differenting of professionals and managers in ESEC classes I and II{p_end}
+{p2col :{cmd:macro}}11  Macro-SEC - ESEC + seperating professionals from managers in ESEC classes I and II{p_end}
 {p2colreset}{...}
 
 {pstd}
     This package also contains a crosswalk for {cmd:microclass}, a 77  microclass scheme (ISCO-08 only, {bf:not} MSEC).
-    The microclass scheme is an ISCO-08 implementation of Jonsson, Grusky, Carlo,  Pollak and Brinton (2009) ISCO-88 crosswalk. 
+    The microclass scheme is an ISCO-08 implementation of Jonsson et al. (2009) ISCO-88 crosswalk. 
     The microclass scheme is not nested into ESEC or part of the MSEC. It is included here to facilitate replication of 
-    Hertel, Barone and Smallenbroek (2025) {browse "https://doi.org/10.1162/euso_a_00044":doi:10.1162/euso_a_00044}
+    Hertel, Barone and Smallenbroek (2025).
 
 
 {pstd}
@@ -39,10 +39,6 @@
         {cmd:. ssc install moremata, replace}
 
 {marker tables}{title:Tables}
-
-{pstd}
-    Type the tables with the {cmd:mc.} prefix. The prefix is what makes
-    {helpb crosswalk} pick up this package's class labels.
 
 
 {pstd}
@@ -65,6 +61,10 @@
 {p2col :{helpb _cwfcn_mc_isco88_3_to_micro:mc.isco88_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
 {p2col :{helpb _cwfcn_mc_isco08_3_to_micro:mc.isco08_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
 {p2colreset}{...}
+
+{pstd}
+    Type the tables with the {cmd:mc.} prefix. The prefix is what makes
+    {helpb crosswalk} pick up this package's class labels.
 
 {pstd}
     Micro-SEC, Meso-SEC and Macro-SEC are defined jointly over occupation
@@ -97,9 +97,8 @@
 {pstd}
     Build it with {helpb _cwcasefcn_mcempstat:case.mcempstat()} from a
     self-employment indicator and a supervisory or employee-count variable.
-    Because this is {helpb crosswalk}'s standard numbering,
-    {helpb _cwcasefcn_esec88:case.esec88()} also works with these tables and
-    gives identical results.
+    Note that {helpb crosswalk}'s {helpb _cwcasefcn_esec88:case.esec88()} 
+    treats missing values differently. 
 
 {pstd}
     {bf:Column 1 is missing} {cmd:.} {bf:in every table.} Multilevel Socio-Economic Classes has no simplified
@@ -133,27 +132,26 @@
 {pstd}
     There is no {cmd:mc.}{it:origin}{cmd:_to_esec()} table. {helpb crosswalk}
     already ships {helpb _cwfcn_isco88_to_esec:isco88_to_esec()} and
-    {helpb _cwfcn_isco08_to_esec:isco08_to_esec()} for the 9-class ESeC. 
+    {helpb _cwfcn_isco08_to_esec:isco08_to_esec()} for the 9-class ESeC.{p_end}
 {pstd}
     They take a {it:different} case function: {cmd:isco88_to_esec()} takes
     {helpb _cwcasefcn_esec88:case.esec88()} (6 columns, with an "unknown" case,
     the same numbering used here), while {cmd:isco08_to_esec()} takes
     {helpb _cwcasefcn_esec:case.esec()} (5 columns, {it:no} "unknown" case).
     Note these treat missing values differently from {helpb _cwcasefcn_mcempstat:case.mcempstat()}, 
-    which treats any missing data as unknown employment status. {p_end}
+    which treats any missing data as unknown employment status.{p_end} 
 
 {marker sources}{title:Sources}
 
 {pstd}
-    Smallenbroek, Hertel and Barone (2022) introduced Macro-SEC. Hertel, Barone
-    and Smallenbroek (2025) assessed Macro-SEC and Micro-SEC alongside other class
-    schemes.{p_end}
+    Smallenbroek, Hertel and Barone (2022) introduced {cmd:Macro-SEC}. Hertel, Barone
+    and Smallenbroek (2025) assessed Macro-SEC alongside other class schemes.{p_end}
 
 {pstd}
     Note that the Micro-SEC assessed in Hertel et al. (2025) is an earlier
     prototype, whose development is documented at
     {browse "https://osf.io/preprints/socarxiv/962q3_v1"}. It is {it:not} the
-    version of Micro-SEC shipped here. The paper documenting the version
+    version of Micro-SEC shipped here. The paper documenting Micro-SEC and Meso-SEC
     implemented in this package is under review.{p_end}
 
 {pstd}
@@ -186,7 +184,7 @@
     {p_end}
 
 {phang}
-    Smallenbroek, O., F. R. Hertel, C. Barone. n.d. Adapting the Microclass
+    Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass
     Schema for Cross-national Research. Retrieved
     {browse "https://osf.io/preprints/socarxiv/xaqju_v1":osf.io/preprints/socarxiv/xaqju_v1}.
     {p_end}
