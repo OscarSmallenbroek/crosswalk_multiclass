@@ -14,18 +14,17 @@
 {pstd}
     {cmd:crosswalk_multiclass} provides {helpb crosswalk} tables translating
     ISCO-88com and ISCO-08 occupational codes into the Multilevel
-    Socio-Economic Classes (MSEC) schemes, plus a separate microclass
-    scheme that is {bf:not} part of MSEC:
+    Socio-Economic Classes (MSEC) schemes:
 
 {p2colset 9 26 28 2}{...}
 {p2col :{it:scheme}}{it:classes}  {it:description}{p_end}
-{p2col :{cmd:micro}}30  Micro-SEC (MSEC){p_end}
-{p2col :{cmd:meso}}18  Meso-SEC (MSEC){p_end}
-{p2col :{cmd:macro}}11  Macro-SEC - ESEC plus differentiation of professionals and managers in classes I and II (MSEC){p_end}
+{p2col :{cmd:micro}}30  Micro-SEC{p_end}
+{p2col :{cmd:meso}}18  Meso-SEC{p_end}
+{p2col :{cmd:macro}}11  Macro-SEC - ESEC differenting of professionals and managers in ESEC classes I and II{p_end}
 {p2colreset}{...}
 
 {pstd}
-    This package also contains crosswalk for {cmd:microclass}, a 77  microclass scheme (ISCO-08 only, {bf:not} MSEC).
+    This package also contains a crosswalk for {cmd:microclass}, a 77  microclass scheme (ISCO-08 only, {bf:not} MSEC).
     The microclass scheme is an ISCO-08 implementation of Jonsson, Grusky, Carlo,  Pollak and Brinton (2009) ISCO-88 crosswalk. 
     The microclass scheme is not nested into ESEC or part of the MSEC. It is included here to facilitate replication of 
     Hertel, Barone and Smallenbroek (2025) {browse "https://doi.org/10.1162/euso_a_00044":doi:10.1162/euso_a_00044}
