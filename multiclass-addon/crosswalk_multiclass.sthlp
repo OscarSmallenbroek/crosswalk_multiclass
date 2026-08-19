@@ -15,36 +15,29 @@
     {cmd:crosswalk_multiclass} provides {helpb crosswalk} tables translating
     ISCO-88com and ISCO-08 occupational codes into the Multilevel
     Socio-Economic Classes (MSEC) schemes, plus a separate micro-class
-    scheme that is {bf:not} part of MSEC (see the note below the table):
+    scheme that is {bf:not} part of MSEC:
 
 {p2colset 9 26 28 2}{...}
 {p2col :{it:scheme}}{it:classes}  {it:description}{p_end}
 {p2col :{cmd:micro}}30  Micro-SEC (MSEC){p_end}
 {p2col :{cmd:meso}}18  Meso-SEC (MSEC){p_end}
-{p2col :{cmd:macro}}11  Macro-SEC - ESEC plus differentiation of SC I and II (MSEC){p_end}
+{p2col :{cmd:macro}}11  Macro-SEC - ESEC plus differentiation of professionals and managers in classes I and II (MSEC){p_end}
 {p2col :{cmd:microclass}}77  micro-class scheme (ISCO-08 only, {bf:not} MSEC){p_end}
 {p2colreset}{...}
 
 {pstd}
-    The package contains no ado-file and defines no command of its own: all
+    This package does not define any commands: all
     recoding is carried out by {helpb crosswalk}. Install it with
 
         {cmd:. ssc install crosswalk, replace}
         {cmd:. ssc install moremata, replace}
 
 {pstd}
-    Micro-SEC, Meso-SEC and Macro-SEC are defined jointly over occupation
-    {it:and} employment relation, so those tables take a
-    {help crosswalk##case:case} argument; see
-    {help crosswalk_multiclass##case:Employment status} below. The 77-category
-    micro-class scheme is purely occupational and takes no case.
-
-{pstd}
-    {bf:Two different "micro" schemes.} {cmd:micro} (Micro-SEC, 30 classes) is
-    assigned jointly with employment relation and sits in the same hierarchy as
-    {cmd:meso} and {cmd:macro}. {cmd:microclass} (77 categories, ISCO-08 only)
-    is a separate, purely occupational schema. They are not the same thing and
-    confusing them will give the wrong answer.
+    {bf:Two different micro-level schemes.} {cmd:micro} (Micro-SEC, 30 classes) is
+    assigned jointly with employment relation and nested into ESEC, same as
+    {cmd:meso} and {cmd:macro}. {cmd:microclass} (77 categories) is a separate, 
+    purely occupational schema. Included here to facilitate replication of 
+    Hertel, Barone and Smallenbroek (2025) {browse "https://doi.org/10.1162/euso_a_00044":doi:10.1162/euso_a_00044}
 
 
 {marker tables}{title:Tables}
@@ -53,8 +46,9 @@
     Type the tables with the {cmd:mc.} prefix. The prefix is what makes
     {helpb crosswalk} pick up this package's class labels.
 
+
 {pstd}
-    4-digit ISCO:
+    Tables using 4-digit ISCO codes (e.g. 2130 for "Life science professionals"):
 
 {p2colset 9 46 48 2}{...}
 {p2col :{helpb _cwfcn_mc_isco88com_to_micro:mc.isco88com_to_micro()}}ISCO-88com to Micro-SEC{p_end}
@@ -67,13 +61,20 @@
 {p2colreset}{...}
 
 {pstd}
-    3-digit ISCO minor groups, usable directly:
+    Tables using 3-digit ISCO codes known as minor ISCO groups (e.g. 213 for "Life science professionals"):
 
 {p2colset 9 46 48 2}{...}
 {p2col :{helpb _cwfcn_mc_isco88_3_to_micro:mc.isco88_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
 {p2col :{helpb _cwfcn_mc_isco08_3_to_micro:mc.isco08_3_to_micro()}}and {cmd:_to_meso()}, {cmd:_to_macro()}{p_end}
 {p2colreset}{...}
 
+{pstd}
+    Micro-SEC, Meso-SEC and Macro-SEC are defined jointly over occupation
+    {it:and} employment relation, so those tables take a
+    {help crosswalk##case:case} argument; see
+    {help crosswalk_multiclass##case:Employment status} below. The 77-category
+    micro-class scheme is purely occupational and takes no case.
+    
 {pstd}
     Case function:
 
@@ -103,10 +104,10 @@
     gives identical results.
 
 {pstd}
-    {bf:Column 1 is} {cmd:.} {bf:in every table.} Multilevel Socio-Economic Classes has no simplified
+    {bf:Column 1 is missing} {cmd:.} {bf:in every table.} Multilevel Socio-Economic Classes has no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than silently picking up
-    another class.
+    another class. 
 
 
 {marker examples}{title:Examples}
@@ -122,7 +123,7 @@
 {phang2}{cmd:.     crosswalk `s' = mc.isco08_to_`s'(isco08 case.mcempstat(selfemp nsuperv))}{p_end}
 {phang2}{cmd:. {c )-}}{p_end}
 
-{pstd}3-digit minor groups, without the 4-digit wrapper:{p_end}
+{pstd}3-digit minor groups:{p_end}
 {phang2}{cmd:. crosswalk meso = mc.isco08_3_to_meso(isco3 case.mcempstat(selfemp nsuperv))}{p_end}
 
 {pstd}The micro-class scheme, which takes no case:{p_end}
@@ -134,27 +135,16 @@
 {pstd}
     There is no {cmd:mc.}{it:origin}{cmd:_to_esec()} table. {helpb crosswalk}
     already ships {helpb _cwfcn_isco88_to_esec:isco88_to_esec()} and
-    {helpb _cwfcn_isco08_to_esec:isco08_to_esec()} for plain 9-class ESeC, so
-    duplicating them here would only risk the two falling out of step. Use
-    those directly:
-
-{phang2}{cmd:. crosswalk esec = isco08_to_esec(isco08 case.esec(selfemp nsuperv))}{p_end}
-
+    {helpb _cwfcn_isco08_to_esec:isco08_to_esec()} for the 9-class ESeC. 
 {pstd}
     They take a {it:different} case function: {cmd:isco88_to_esec()} takes
     {helpb _cwcasefcn_esec88:case.esec88()} (6 columns, with an "unknown" case,
     the same numbering used here), while {cmd:isco08_to_esec()} takes
     {helpb _cwcasefcn_esec:case.esec()} (5 columns, {it:no} "unknown" case).
-    Passing the wrong one will not raise an error; it will silently select the
-    wrong columns.
+    Note these treat missing values differently from {helpb _cwcasefcn_mcempstat:case.mcempstat()}, 
+    which treats any missing data as unknown employment status. 
 
-{pstd}
-    {cmd:mc.}{it:origin}{cmd:_to_macro()} aggregates to the same ESeC classes
-    with the rule {c -(}1,2{c )-}->1, {c -(}3,4{c )-}->2, 5->3, 6->4, 7->5,
-    8->6, 9->7, 10->8, 11->9, and reproduces those tables exactly.
-
-
-{marker refs}{title:References}
+{marker refs}{title:Sources}
 
 {pstd}
     Smallenbroek, Hertel and Barone (2022) introduced Macro-SEC. Hertel, Barone
@@ -173,7 +163,10 @@
     occupational titles and descriptions, following the micro-class approach of
     Grusky, Weeden and Sorensen (2000) and Weeden and Grusky (2005) and
     emulating the categories of Jonsson et al. (2009). It is documented in
-    Smallenbroek, Hertel and Barone (n.d.).
+    Smallenbroek, Hertel and Barone (2026).
+
+{marker refs}{title:References}
+
 
 {phang}
     Smallenbroek, O., F. R. Hertel, C. Barone. 2022. Measuring Class
@@ -182,6 +175,11 @@
     Research 53(3):1412-52. doi:10.1177/00491241221134522.
     {p_end}
 
+{phang}
+    Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass 
+    Schema for Cross-national Research. osf.io/preprints/socarxiv/xaqju_v1.
+   {p_end}
+   
 {phang}
     Hertel, F. R., C. Barone, O. Smallenbroek. 2025. The Multiverse of Social
     Class. A Large-Scale Assessment of Macro-Level, Meso-Level and Micro-Level

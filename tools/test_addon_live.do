@@ -299,7 +299,7 @@ assert `:word count `lv'' == 5
 di as txt ""
 di as txt "############ G. case.mcempstat() ############"
 clear
-set obs 8
+set obs 10
 gen byte sempl  = .
 gen byte supvis = .
 replace sempl = 1  in 1
@@ -316,7 +316,11 @@ replace sempl = 0  in 6
 replace supvis= 0  in 6
 replace sempl = 0  in 7
 replace supvis= .  in 7
-replace sempl = .  in 8
+replace sempl = 0  in 8
+replace supvis= -1 in 8
+replace sempl = 1  in 9
+replace supvis= .  in 9
+replace sempl = .  in 10
 gen int isco08 = 2411
 
 foreach s in micro meso macro {
@@ -325,24 +329,42 @@ foreach s in micro meso macro {
 list sempl supvis cf_micro cf_meso cf_macro, clean noobs sep(0) nolabel
 
 di as txt "  -- sempl missing must be UNCODED, not silently column 1 --"
-assert missing(cf_micro) in 8
-assert missing(cf_meso)  in 8
-assert missing(cf_macro) in 8
+assert missing(cf_micro) in 10
+assert missing(cf_meso)  in 10
+assert missing(cf_macro) in 10
 di as txt "  OK"
 
-* case.esec88() uses the same 1-6 numbering and must be interchangeable
+di as txt "  -- supvis missing/negative must be UNCODED, not silently 2/4 --"
+foreach i in 7 8 9 {
+    assert missing(cf_micro) in `i'
+    assert missing(cf_meso)  in `i'
+    assert missing(cf_macro) in `i'
+}
+di as txt "  OK"
+
+* case.esec88() uses the same 1-6 numbering, but the two are NOT expected to
+* agree where supvis is missing or negative: esec88() still defaults those to
+* supvis=0 while mcempstat() now codes them as unknown (case 1) -- that is
+* the fix this block exists to guard. Compare only on well-formed supvis.
 foreach s in micro meso macro {
     qui crosswalk e88_`s' = mc.isco08_to_`s'(isco08 case.esec88(sempl supvis))
-    qui count if !((e88_`s'==cf_`s') | (missing(e88_`s') & missing(cf_`s')))
-    di as txt "  case.esec88() vs case.mcempstat() differences (`s'): " as res r(N)
+    qui count if !((e88_`s'==cf_`s') | (missing(e88_`s') & missing(cf_`s'))) ///
+        & !missing(sempl) & !missing(supvis) & supvis>=0
+    di as txt "  case.esec88() vs case.mcempstat() differences on well-formed supvis (`s'): " as res r(N)
     if r(N) local FAIL = `FAIL' + 1
 }
+di as txt "  -- esec88() and mcempstat() must diverge on missing/negative supvis --"
+foreach i in 7 8 9 {
+    assert !missing(e88_micro) in `i'
+    assert missing(cf_micro) in `i'
+}
+di as txt "  OK"
 
-di as txt "  -- supvis omitted must still code --"
+di as txt "  -- supvis omitted must code everything as unknown, not silently 2/4 --"
 qui crosswalk nos_micro = mc.isco08_to_micro(isco08 case.mcempstat(sempl))
 qui count if !missing(nos_micro)
-di as txt "  coded rows with supvis omitted: " as res r(N) as txt " of 8"
-if r(N)==0 local FAIL = `FAIL' + 1
+di as txt "  coded rows with supvis omitted: " as res r(N) as txt " of 10 (expect 0)"
+if r(N)!=0 local FAIL = `FAIL' + 1
 
 *=====================================================================
 * H. invalid codes and invalid cases must fail safe
