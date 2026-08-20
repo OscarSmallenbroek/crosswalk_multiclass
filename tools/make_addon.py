@@ -1,4 +1,4 @@
-"""Generate the crosswalk add-on (msec-addon/) from the tables in build/,
+"""Generate the crosswalk add-on (multiclass-addon/) from the tables in build/,
 as written by tools/make_tables.do. Run from D:/work/multiclass-package.
 
 Help-file text here is USER-facing: how to call the table, what the cases mean,
@@ -17,7 +17,7 @@ from citations import (ESEC_POINTER_SHORT,
                        REF_WEEDEN_2005, refs)
 
 BUILD = "build"
-OUT = "msec-addon"
+OUT = "multiclass-addon"
 
 # esec is kept here so read_resolved() can still find its CSV column, but it is
 # NOT shipped as an mc.<origin>_to_esec() table: crosswalk already provides

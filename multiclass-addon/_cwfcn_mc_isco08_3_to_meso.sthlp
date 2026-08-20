@@ -19,7 +19,7 @@
 
 {pstd}
     {helpb crosswalk} table translating 3-digit ISCO-08 minor
-    groups to the Multilevel Socio-Economic Classes Meso-SEC (18 classes). The table also
+    groups to the Multilevel Socio-Economic Classes: Meso-SEC (18 classes). The table also
     carries rows for sub-major (2-digit) and major (1-digit)
     groups, written as 3-digit codes padded with zeros on the
     right, so that partially coded observations still match.
@@ -36,7 +36,7 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
@@ -47,9 +47,9 @@
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for the 18-class Meso-SEC,
-    assessed in Hertel, Barone and Smallenbroek (2025); see
-    References.
+    Multilevel Socio-Economic Classes crosswalk files for Meso-SEC,
+    the 18-class scheme assessed in Hertel, Barone and Smallenbroek
+    (2025); see References.
     {p_end}
 
 {pstd}

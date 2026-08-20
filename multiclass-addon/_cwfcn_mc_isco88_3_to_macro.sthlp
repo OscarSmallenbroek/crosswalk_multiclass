@@ -36,7 +36,7 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
@@ -47,8 +47,9 @@
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC, introduced in
-    Smallenbroek, Hertel and Barone (2022); see References.
+    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC,
+    introduced in Smallenbroek, Hertel and Barone (2022); see
+    References.
     {p_end}
 
 {pstd}

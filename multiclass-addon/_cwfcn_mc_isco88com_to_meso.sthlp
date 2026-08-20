@@ -23,8 +23,8 @@
 
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-88(com) codes to
-    the Multilevel Socio-Economic Classes Meso-SEC (18 classes). Note that the Multilevel Socio-Economic Classes
-    schemes are defined at the level of minor ISCO groups
+    the Multilevel Socio-Economic Classes: Meso-SEC (18 classes). Note that the Multilevel Socio-Economic Classes
+    are defined at the level of minor ISCO groups
     (3 digit); that is, all unit groups within a minor group
     translate into the same class.
 
@@ -40,16 +40,16 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for the 18-class Meso-SEC,
-    assessed in Hertel, Barone and Smallenbroek (2025); see
-    References.
+    Multilevel Socio-Economic Classes crosswalk files for Meso-SEC,
+    the 18-class scheme assessed in Hertel, Barone and Smallenbroek
+    (2025); see References.
     {p_end}
 
 {pstd}

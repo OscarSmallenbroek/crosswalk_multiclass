@@ -5,13 +5,13 @@
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} label set for the Multilevel Socio-Economic Classes Meso-SEC (18 classes).
+    {helpb crosswalk} label set for the Multilevel Socio-Economic Classes: Meso-SEC (18 classes).
     Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_meso()}
     tables when the prefix syntax {cmd:mc.} is used.
     {p_end}
 
 {pstd}
-    Taken from the value labels carried by the Multilevel Socio-Economic Classes source
+    Taken from the value labels carried by the source
     crosswalk files.
     {p_end}
 {hline}

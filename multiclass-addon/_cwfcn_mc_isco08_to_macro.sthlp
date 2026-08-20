@@ -24,7 +24,7 @@
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-08 codes to
     the Macro-SEC - ESEC plus differentiation of SC I and II (11 classes). Note that the Multilevel Socio-Economic Classes
-    schemes are defined at the level of minor ISCO groups
+    are defined at the level of minor ISCO groups
     (3 digit); that is, all unit groups within a minor group
     translate into the same class.
 
@@ -40,15 +40,16 @@
         6 = self-employed, 10 or more employees
 
 {pstd}
-    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes schemes have no simplified
+    Column 1 is {cmd:.} throughout: the Multilevel Socio-Economic Classes have no simplified
     variant for unknown employment status, so observations whose employment
     status is unknown come back uncoded rather than picking up another class.
 
 {title:Source}
 
 {pstd}
-    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC, introduced in
-    Smallenbroek, Hertel and Barone (2022); see References.
+    Multilevel Socio-Economic Classes crosswalk files for Macro-SEC,
+    introduced in Smallenbroek, Hertel and Barone (2022); see
+    References.
     {p_end}
 
 {pstd}

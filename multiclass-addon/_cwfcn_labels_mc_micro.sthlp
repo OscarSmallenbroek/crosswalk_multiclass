@@ -5,8 +5,7 @@
 {title:Description}
 
 {pstd}
-    {helpb crosswalk} label set for Micro-SEC (30 classes), one of the
-    Multilevel Socio-Economic Classes (MSEC) schemes.
+    {helpb crosswalk} label set for the Multilevel Socio-Economic Classes: Micro-SEC (30 classes).
     Picked up automatically by the {cmd:mc.}{it:origin}{cmd:_to_micro()}
     tables when the prefix syntax {cmd:mc.} is used.
     {p_end}

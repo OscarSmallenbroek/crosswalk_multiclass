@@ -1,6 +1,6 @@
 {smcl}
 {* version 1.0.0  18aug2026}{...}
-{hi:mc_isco08_to_microclass()} {hline 2} Translate 4-digit ISCO-08 to the micro-class scheme
+{hi:mc_isco08_to_microclass()} {hline 2} Translate 4-digit ISCO-08 to the microclass scheme
 
 {title:Syntax}
 
@@ -14,8 +14,7 @@
 
 {pstd}
     {helpb crosswalk} table translating 4-digit ISCO-08 codes to the
-    micro-class scheme (77 categories). This is a separate scheme, not
-    part of the Multilevel Socio-Economic Classes (MSEC).
+    microclass scheme (77 categories).
 
 {pstd}
     Unlike the other {cmd:mc.} tables this one is purely
@@ -33,8 +32,9 @@
 {title:Source}
 
 {pstd}
-    Crosswalk file for the 77-category micro-class scheme, documented in
-    Smallenbroek, Hertel and Barone (n.d.); see References.
+    Crosswalk file for the 77-category microclass
+    scheme, documented in Smallenbroek, Hertel and Barone (n.d.);
+    see References.
     {p_end}
 
 {pstd}

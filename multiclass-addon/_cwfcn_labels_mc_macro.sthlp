@@ -11,7 +11,7 @@
     {p_end}
 
 {pstd}
-    Taken from the value labels carried by the Multilevel Socio-Economic Classes source
+    Taken from the value labels carried by the source
     crosswalk files.
     {p_end}
 {hline}
