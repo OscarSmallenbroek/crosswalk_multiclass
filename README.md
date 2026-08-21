@@ -11,7 +11,9 @@ All MSEC crosswalks are implemented at the level of minor ISCO groups (3 digit).
 | Meso-SEC | 18 | `meso` | ISCO-88com, ISCO-08 |
 | Macro-SEC | 11 | `macro` | ISCO-88com, ISCO-08 |
 
-The add-on also provides a translation from ISCO-08 to **microclass** as developed by Grusky, Weeden and Sorensen (2000), which is not nested into ESEC or part of the MSEC. 
+The add-on also provides a translation from ISCO-08 to **microclass** with 77 categories.
+It is an ISCO-08 implementation of Jonsson et al. (2009) ISCO-88 crosswalk. The microclass scheme is not nested into ESEC or part of the MSEC. It is included here to facilitate replication of Hertel, Barone and Smallenbroek (2025).
+
 
 This is an **add-on for the [`crosswalk`](https://github.com/benjann/crosswalk)
 package** by Ben Jann. Like

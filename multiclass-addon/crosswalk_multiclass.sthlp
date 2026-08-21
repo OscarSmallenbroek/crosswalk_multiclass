@@ -98,7 +98,7 @@
     Build it with {helpb _cwcasefcn_mcempstat:case.mcempstat()} from a
     self-employment indicator and a supervisory or employee-count variable.
     Note that {helpb crosswalk}'s {helpb _cwcasefcn_esec88:case.esec88()} 
-    treats missing values differently. 
+    treats missing values of self-employement and number of employees/superivsees differently. 
 
 {pstd}
     {bf:Column 1 is missing} {cmd:.} {bf:in every table.} Multilevel Socio-Economic Classes has no simplified
@@ -170,11 +170,6 @@
     Validation of EGP and ESEC Across 31 Countries. Sociological Methods &
     Research 53(3):1412-52. doi:10.1177/00491241221134522.
     {p_end}
-
-{phang}
-    Smallenbroek, O., F. R. Hertel, C. Barone. 2026. Adapting the Microclass 
-    Schema for Cross-national Research. osf.io/preprints/socarxiv/xaqju_v1.
-   {p_end}
    
 {phang}
     Hertel, F. R., C. Barone, O. Smallenbroek. 2025. The Multiverse of Social
