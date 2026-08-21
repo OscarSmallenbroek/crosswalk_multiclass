@@ -102,9 +102,7 @@ use those:
 ```stata
 crosswalk esec = isco08_to_esec(isco08 case.esec(selfemp nsuperv))
 ```
-`mc.<origin>_to_macro()` aggregates to the same ESeC classes with the rule
-{1,2}→1, {3,4}→2, 5→3, 6→4, 7→5, 8→6, 9→7, 10→8, 11→9, and reproduces
-crosswalk's own ESeC tables exactly.
+ Macro-SEC is ESEC + separating professionals from managers in ESEC classes I and II.
 
 ## Sources
 

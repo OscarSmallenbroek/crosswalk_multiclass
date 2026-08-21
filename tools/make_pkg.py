@@ -29,7 +29,7 @@ Jann. It provides crosswalk tables translating ISCO-88com and ISCO-08
 occupational codes into the Multilevel Socio-Economic Classes (MSEC)
 schemes -- Micro-SEC (30 classes), Meso-SEC (18 classes), and Macro-SEC
 (11 classes, ESEC plus differentiation of SC I and II) -- plus, for
-ISCO-08 only, a separate 77-category micro-class scheme that is not
+ISCO-08 only, a separate 77-category microclass scheme that is not
 part of MSEC. Micro-SEC, Meso-SEC and Macro-SEC are defined jointly
 over occupation and employment relation, so those tables carry one
 destination column per employment status, and two case functions are

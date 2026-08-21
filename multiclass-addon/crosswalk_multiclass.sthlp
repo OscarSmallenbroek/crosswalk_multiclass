@@ -21,7 +21,7 @@
 {p2col :{it:scheme}}{it:classes}  {it:description}{p_end}
 {p2col :{cmd:micro}}30  Micro-SEC{p_end}
 {p2col :{cmd:meso}}18  Meso-SEC{p_end}
-{p2col :{cmd:macro}}11  Macro-SEC - ESEC + seperating professionals from managers in ESEC classes I and II{p_end}
+{p2col :{cmd:macro}}11  Macro-SEC - ESEC + separating professionals from managers in ESEC classes I and II{p_end}
 {p2colreset}{...}
 
 {pstd}
